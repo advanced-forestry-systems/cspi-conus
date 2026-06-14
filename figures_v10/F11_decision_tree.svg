@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Arial, sans-serif">
+  <style>
+    .root { fill: #07375E; stroke: #07375E; stroke-width: 1; }
+    .leaf-esi { fill: #5B68B8; stroke: #07375E; }
+    .leaf-bgi { fill: #E15554; stroke: #07375E; }
+    .leaf-asym { fill: #6F8C5A; stroke: #07375E; }
+    .leaf-npp { fill: #C68C42; stroke: #07375E; }
+    .leaf-cspi { fill: #8B5DA6; stroke: #07375E; }
+    .box-text { fill: white; font-size: 13px; font-weight: bold; text-anchor: middle; }
+    .box-text-dark { fill: #1a1a1a; font-size: 11px; text-anchor: middle; }
+    .label { fill: #333; font-size: 11px; }
+    .title { fill: #07375E; font-size: 16px; font-weight: bold; }
+    .subtitle { fill: #666; font-size: 11px; font-style: italic; }
+    .branch { stroke: #888; stroke-width: 1.5; fill: none; }
+    .question { fill: #2a2a2a; font-size: 12px; text-anchor: middle; font-style: italic; }
+  </style>
+
+  <!-- Title -->
+  <text x="500" y="25" class="title" text-anchor="middle">Which productivity measure should I use?</text>
+  <text x="500" y="42" class="subtitle" text-anchor="middle">A decision tree for choosing among the four operational measures plus the composite</text>
+
+  <!-- Root question -->
+  <rect x="375" y="60" width="250" height="50" rx="6" class="root"/>
+  <text x="500" y="79" class="box-text">What is your application?</text>
+  <text x="500" y="96" class="box-text" font-size="11">(no single measure fits all)</text>
+
+  <!-- Branches from root -->
+  <line x1="500" y1="110" x2="125" y2="180" class="branch"/>
+  <line x1="500" y1="110" x2="345" y2="180" class="branch"/>
+  <line x1="500" y1="110" x2="500" y2="180" class="branch"/>
+  <line x1="500" y1="110" x2="655" y2="180" class="branch"/>
+  <line x1="500" y1="110" x2="875" y2="180" class="branch"/>
+
+  <!-- Branch labels -->
+  <text x="290" y="155" class="question">Height growth /</text>
+  <text x="290" y="170" class="question">FVS calibration</text>
+
+  <text x="420" y="155" class="question">Recent biomass</text>
+  <text x="420" y="170" class="question">accumulation</text>
+
+  <text x="500" y="155" class="question">Long-run carbon</text>
+  <text x="500" y="170" class="question">carrying capacity</text>
+
+  <text x="585" y="155" class="question">Annual carbon</text>
+  <text x="585" y="170" class="question">flux / NPP</text>
+
+  <text x="800" y="155" class="question">General productivity /</text>
+  <text x="800" y="170" class="question">ranking studies</text>
+
+  <!-- Leaf boxes -->
+  <rect x="60" y="180" width="130" height="80" rx="6" class="leaf-esi"/>
+  <text x="125" y="205" class="box-text">ESI</text>
+  <text x="125" y="222" class="box-text" font-size="10">(Site Index)</text>
+  <text x="125" y="240" class="box-text" font-size="10">m at base age 50</text>
+  <text x="125" y="254" class="box-text" font-size="10">v7 recommended</text>
+
+  <rect x="280" y="180" width="130" height="80" rx="6" class="leaf-bgi"/>
+  <text x="345" y="205" class="box-text">BGI</text>
+  <text x="345" y="222" class="box-text" font-size="10">(Biomass Growth</text>
+  <text x="345" y="234" class="box-text" font-size="10">Increment)</text>
+  <text x="345" y="252" class="box-text" font-size="10">Mg ha⁻¹ yr⁻¹</text>
+
+  <rect x="435" y="180" width="130" height="80" rx="6" class="leaf-asym"/>
+  <text x="500" y="205" class="box-text">Asym</text>
+  <text x="500" y="222" class="box-text" font-size="10">(Asymptotic</text>
+  <text x="500" y="234" class="box-text" font-size="10">Biomass)</text>
+  <text x="500" y="252" class="box-text" font-size="10">Mg ha⁻¹</text>
+
+  <rect x="590" y="180" width="130" height="80" rx="6" class="leaf-npp"/>
+  <text x="655" y="205" class="box-text">NPP</text>
+  <text x="655" y="222" class="box-text" font-size="10">(MOD17A3HGF</text>
+  <text x="655" y="234" class="box-text" font-size="10">annual mean)</text>
+  <text x="655" y="252" class="box-text" font-size="10">kg C m⁻² yr⁻¹</text>
+
+  <rect x="810" y="180" width="130" height="80" rx="6" class="leaf-cspi"/>
+  <text x="875" y="205" class="box-text">CSPI v2</text>
+  <text x="875" y="222" class="box-text" font-size="10">(Composite of</text>
+  <text x="875" y="234" class="box-text" font-size="10">ESI + BGI + Asym)</text>
+  <text x="875" y="252" class="box-text" font-size="10">0–100 index</text>
+
+  <!-- Operational notes below each box -->
+  <text x="125" y="290" class="label" text-anchor="middle">Use for: FVS DG-Kuehne,</text>
+  <text x="125" y="305" class="label" text-anchor="middle">height-age curves, growth</text>
+  <text x="125" y="320" class="label" text-anchor="middle">and yield calibration.</text>
+  <text x="125" y="340" class="label" text-anchor="middle" font-weight="bold">Caveat:</text>
+  <text x="125" y="355" class="label" text-anchor="middle">FIA SICOND has been</text>
+  <text x="125" y="370" class="label" text-anchor="middle">carrying BGI signal, not</text>
+  <text x="125" y="385" class="label" text-anchor="middle">ESI. Use ESI v7 for clean</text>
+  <text x="125" y="400" class="label" text-anchor="middle">height-growth response.</text>
+
+  <text x="345" y="290" class="label" text-anchor="middle">Use for: carbon stock</text>
+  <text x="345" y="305" class="label" text-anchor="middle">change projections,</text>
+  <text x="345" y="320" class="label" text-anchor="middle">CFP, current-decade</text>
+  <text x="345" y="335" class="label" text-anchor="middle">productivity.</text>
+  <text x="345" y="355" class="label" text-anchor="middle" font-weight="bold">Note:</text>
+  <text x="345" y="370" class="label" text-anchor="middle">BGI tracks FIA SITECLCD</text>
+  <text x="345" y="385" class="label" text-anchor="middle">and traditional SICOND</text>
+  <text x="345" y="400" class="label" text-anchor="middle">at r = 0.74.</text>
+
+  <text x="500" y="290" class="label" text-anchor="middle">Use for: long-run carbon</text>
+  <text x="500" y="305" class="label" text-anchor="middle">accounting, mature stand</text>
+  <text x="500" y="320" class="label" text-anchor="middle">density management,</text>
+  <text x="500" y="335" class="label" text-anchor="middle">sustainability scoping.</text>
+  <text x="500" y="355" class="label" text-anchor="middle" font-weight="bold">Note:</text>
+  <text x="500" y="370" class="label" text-anchor="middle">Asym is the most</text>
+  <text x="500" y="385" class="label" text-anchor="middle">substitutable measure</text>
+  <text x="500" y="400" class="label" text-anchor="middle">(R² 0.89 from others).</text>
+
+  <text x="655" y="290" class="label" text-anchor="middle">Use for: land surface</text>
+  <text x="655" y="305" class="label" text-anchor="middle">models, atmospheric</text>
+  <text x="655" y="320" class="label" text-anchor="middle">flux studies, climate</text>
+  <text x="655" y="335" class="label" text-anchor="middle">change projections.</text>
+  <text x="655" y="355" class="label" text-anchor="middle" font-weight="bold">Note:</text>
+  <text x="655" y="370" class="label" text-anchor="middle">MOD17 CV layer ships</text>
+  <text x="655" y="385" class="label" text-anchor="middle">alongside the mean for</text>
+  <text x="655" y="400" class="label" text-anchor="middle">interannual stability.</text>
+
+  <text x="875" y="290" class="label" text-anchor="middle">Use for: site quality</text>
+  <text x="875" y="305" class="label" text-anchor="middle">rankings without a</text>
+  <text x="875" y="320" class="label" text-anchor="middle">specific application,</text>
+  <text x="875" y="335" class="label" text-anchor="middle">cross-study comparison.</text>
+  <text x="875" y="355" class="label" text-anchor="middle" font-weight="bold">Note:</text>
+  <text x="875" y="370" class="label" text-anchor="middle">Tracks FIA SITECLCD</text>
+  <text x="875" y="385" class="label" text-anchor="middle">linearly; agrees with</text>
+  <text x="875" y="400" class="label" text-anchor="middle">field expectations.</text>
+
+  <!-- Bottom row: what NOT to use -->
+  <rect x="60" y="430" width="880" height="130" rx="6" fill="#f4ede0" stroke="#c68c42" stroke-width="1.5"/>
+  <text x="500" y="455" class="title" text-anchor="middle" font-size="14">Common failure modes (what single-metric studies miss)</text>
+
+  <text x="80" y="478" class="label">• ESI alone misses the FIA SITECLCD ranking. The mean ESI is essentially flat (30.6 → 29.6 m) across the FIA productivity classes 1–7;</text>
+  <text x="100" y="493" class="label">the field's traditional classification is measuring biomass growth, not site index.</text>
+
+  <text x="80" y="510" class="label">• ESI alone misses the stand-age sign flip. ESI–BGI correlation goes from −0.57 in middle-age stands to +0.33 in old growth.</text>
+  <text x="100" y="525" class="label">A productivity surface trained pooled across stand ages is wrong in opposite directions in young vs old stands.</text>
+
+  <text x="80" y="542" class="label">• ESI alone misses species heterogeneity. The ESI–BGI correlation is 0.028 in yellow-poplar and 0.492 in Douglas-fir.</text>
+  <text x="100" y="557" class="label">A single national ranking implicitly assumes one relationship across all species. It does not hold.</text>
+</svg>
