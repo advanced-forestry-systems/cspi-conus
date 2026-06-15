@@ -1,6 +1,6 @@
 # Beyond site index: FIA's own classification system disagrees with site index but agrees with a multi-dimensional composite of forest productivity at 30 m across the conterminous United States
 
-Draft v0.10b, 14 June 2026. Reframed from v0.9 with the FIADB context analyses and corrected for the SICOND base-age Simpson's paradox identified in §3.5 Table 2a. Composite is now ESI + BGI + Asym (3 measures) with weighting; NPP and FIA SICOND are external comparators. The strongest empirical finding is that FIA's site class (SITECLCD) correlates with biomass growth and the multi-dimensional composite, not with site index alone (random forest predicting SITECLCD: BGI alone OOB R² = 0.808 vs ESI alone 0.751). The pooled raw SICOND × ESI correlation of −0.08 is a base-age Simpson's paradox: after standardizing SICOND to base 50 via Chapman-Richards anamorphic projection, SICOND correlates with both ESI and BGI at r ≈ 0.45 to 0.48. v2 DOI 10.5281/zenodo.20663652. Concept DOI 10.5281/zenodo.20515034.
+Draft v0.10i, 15 June 2026. Stand-age sign flip moved to supplementary (Table S12); geologic parent material (gSSURGO copmgrp.pmgroupname) promoted as the cleanest third structural-axis demonstration alongside per-species (§3.3) and East-vs-West region (§3.4). The composite is ESI + BGI + Asym (3 measures) with weighting; NPP and FIA SICOND are external comparators. The strongest empirical finding is that FIA's site class (SITECLCD) correlates with biomass growth and the multi-dimensional composite, not with site index alone (random forest predicting SITECLCD: BGI alone OOB R² = 0.808 vs ESI alone 0.751). The pooled raw SICOND × ESI correlation of −0.08 is a base-age Simpson's paradox: after standardizing SICOND to base 50 via Chapman-Richards anamorphic projection, SICOND correlates with both ESI and BGI at r ≈ 0.45 to 0.48. Data concept DOI 10.5281/zenodo.20515034. Analytical chain DOI 10.5281/zenodo.20693106. v2.0.0 DOI 10.5281/zenodo.20663652.
 
 Author: Aaron R. Weiskittel, University of Maine, Center for Research on Sustainable Forests. ORCID 0000-0003-2534-4478. Corresponding email: aaron.weiskittel@maine.edu.
 
@@ -8,7 +8,7 @@ Author: Aaron R. Weiskittel, University of Maine, Center for Research on Sustain
 
 Forest site productivity is operationally measured in the United States by site index, the expected height of dominant trees at a reference age. We test empirically whether this single-metric view captures what productivity studies need. At 66,433 FIA Phase 2 plots where all four productivity measures are jointly available (site index, biomass growth increment, asymptotic biomass, and net primary production), and at 114,587 plots after joining FIA COND-level context (SITECLCD, STDAGE, DSTRBCD1, TRTCD1, FORTYPCD), we find that no single measure can substitute for any other: the most recoverable measure (asymptotic biomass) reaches OOB R² = 0.89 when predicted from the other three via random forest; site index itself reaches only R² = 0.70. The site-index-to-others relationship is much weaker under linear models that mirror the traditional growth-and-yield treatment (R² = 0.24).
 
-The structure depends strongly on stand age, forest type, and ecological regime. The ESI–BGI correlation is −0.57 in middle-age stands (60–80 yr) but +0.33 in old-growth stands (120+ yr), and ranges from −0.02 in loblolly pine to +0.53 in Douglas-fir stands. The Asym–NPP correlation flips sign between eastern hardwood (r = −0.60) and western conifer (r = +0.57) regimes.
+The structure depends strongly on species, ecological regime, and geologic parent material. The ESI–BGI correlation ranges from −0.02 in loblolly pine to +0.53 in Douglas-fir stands. The Asym–NPP correlation flips sign between eastern hardwood (r = −0.60) and western conifer (r = +0.57) regimes. Geologic parent material produces an analogous sign-flip: volcanic soils have the highest mean site index in the dataset (39.9 m) yet the lowest FIA SITECLCD productivity rating (5.69 of 7), and organic soils have the lowest mean site index (19.2 m) yet a high biomass growth rate (2.04 Mg ha⁻¹ yr⁻¹). The same opposite-sign disagreement between site index and FIA's classification appears in three independent stratifications.
 
 The strongest empirical case for the multi-dimensional view comes from FIA's own productivity classification (SITECLCD): site index (ESI) mean is 30.6 m at the most productive class and 29.6 m at the least productive class, essentially flat. Biomass growth increment, in contrast, drops from 2.11 to 0.92 Mg ha⁻¹ yr⁻¹ across the same classes, and a three-component composite (ESI + BGI + Asym) drops from 40.0 to 30.2 on a 0–100 scale. A random forest predicting SITECLCD from BGI alone reaches OOB R² = 0.808; from ESI alone, only 0.751. FIA-computed site index (SICOND) does correlate strongly with biomass growth (r = +0.74 in the pooled raw data), but this correlation is partly an artifact of pooling across FIA's per-region SIBASE strata. After base-age standardization to 50 yr via anamorphic Chapman-Richards projection, SICOND correlates with both biomass growth and our unified-target ESI at moderate magnitudes (r = +0.45 and +0.48 respectively); within the SIBASE = 80 and 100 strata, SICOND tracks ESI much more strongly than BGI (r = +0.80 to +0.83 with ESI). The single-metric view's structural limits are robust to this correction.
 
@@ -202,24 +202,9 @@ The mismatch is quantifiable. We fit a random forest to predict SITECLCD as a co
 | ESI + BGI + Asym | 0.818 | 0.419 |
 | ESI + BGI + Asym + NPP | 0.820 | 0.417 |
 
-### 3.7 The ESI–BGI correlation flips sign at old stands
+### 3.7 Stand age stratification (supplementary)
 
-Table 4 shows the pairwise correlations among the three internal measures, binned by stand age (FIA STDAGE).
-
-**Table 4.** Pairwise correlations by stand age bin.
-
-| Stand age | n | ESI–BGI | ESI–Asym | BGI–Asym | Mean CSPI (3-comp) |
-|---|---|---|---|---|---|
-| 0–20 yr | 16,056 | −0.538 | 0.125 | −0.287 | 37.0 |
-| 20–40 yr | 9,172 | −0.284 | 0.045 | −0.330 | 35.7 |
-| 40–60 yr | 6,812 | −0.509 | 0.024 | −0.220 | 37.2 |
-| 60–80 yr | 6,388 | −0.569 | 0.013 | −0.132 | 37.9 |
-| 80–120 yr | 13,764 | −0.411 | −0.123 | −0.039 | 36.4 |
-| **120+ yr** | **10,906** | **+0.328** | −0.103 | +0.179 | 33.0 |
-
-The ESI–BGI correlation is strongly negative in stands younger than 120 years (range −0.28 to −0.57) and flips to strongly positive (+0.33) in old-growth stands. The interpretation: in young and middle-age stands, plots with tall trees for their age (high ESI) are not the plots actively accumulating biomass fastest (high BGI); these are mature plots that have already done their fast-growth phase. In old-growth stands, plots with the tallest dominant trees are also the plots that maintained high biomass-growth rates — the productive sites that stayed productive into old age. The sign flip is a phenomenological signature of the transition from age-driven to site-driven productivity rankings.
-
-This sign-flip is critical for the multi-dimensional argument: a productivity surface trained on a single stand-age class will not generalize to other stand-age classes. Studies that use site index across a wide stand-age range are absorbing this sign-flip into the regression residuals without seeing it.
+A supplementary stand-age stratification of the ESI-BGI correlation (Table S12) shows a phenomenologically interesting pattern of sign-flip at the boundary between middle-age (60-80 yr, r = −0.57) and old-growth (120+ yr, r = +0.33) stands. The interpretation is that in young and middle-age stands the tallest plots for their age have already plateaued in biomass accumulation, while in old-growth stands the tallest plots are also the ones that maintained high biomass-growth rates into old age. We report this finding in Table S12 because FIA STDAGE has substantial measurement uncertainty at the plot level and because stand age depends on management history rather than fixed site properties; the per-species (§3.3), regional (§3.4), parent-material (§3.14), and SITECLCD (§3.6) stratifications are the cleaner structural anchors for the multi-dimensional argument.
 
 ### 3.8 Forest type group differentiation
 
@@ -332,15 +317,13 @@ The earlier reading that "SICOND has been measuring biomass growth without sayin
 
 The corollary for users who plan to swap SICOND for a refined unified-target ESI (such as ESI v7) is that the calibration shift will be smaller in magnitude than the raw r = −0.08 would have suggested. The two measures share substantial structure once base-age is controlled. The empirical bound on the calibration shift can be read from the cross-prediction analysis in §3.2: a linear OLS using SICOND alone recovers R² = 0.24 of the multi-dimensional information; replacing SICOND with ESI v7 in the same linear treatment recovers R² = 0.21 to 0.27 depending on stratification, a roughly 10 percent change. Substantively this means FVS-style height-growth calibrations re-fit on ESI v7 in place of SICOND should produce dominant-tree-height predictions that differ from the SICOND-based calibration by roughly 5 to 10 percent on average, larger at the per-species and per-region extremes documented in §3.3 and §3.13. Practitioners should expect calibration changes in that range, not changes that fundamentally alter the structure of FVS or related growth-and-yield systems.
 
-### 4.4 Stand-age sign flip
+### 4.4 Geologic parent material as a structural axis
 
-The ESI–BGI sign flip at 120 years (Table 4) is a second layer of the multi-dimensional argument. In stands younger than the sign-flip threshold, the productive sites are not the fastest-growing right now because they have already reached a height-growth plateau. In old-growth stands, the productive sites are the fastest-growing because they sustained productivity into old age. The implications:
+The geologic stratification in §3.14 (Tables 7 and 7a) provides the cleanest single illustration of the multi-dimensional disagreement between site index and FIA SITECLCD. Volcanic soils carry the highest mean ESI in the dataset (39.9 m) — the dominant trees that grow on those sites are tall — and the lowest mean SITECLCD productivity rating (5.69 of 7) — FIA classifies them as the least productive. Organic soils are the opposite case: the lowest mean ESI (19.2 m) but a high BGI (2.04 Mg ha⁻¹ yr⁻¹). The two productivity measures give opposite answers on the two parent-material categories where the disagreement is most extreme.
 
-A productivity surface trained only on young stands will mis-rank old-growth plots, and vice versa.
+We emphasize the geologic axis over alternative stratifications (stand age, forest type group) because geologic parent material is a fixed site property that does not depend on management history or measurement uncertainty. The pattern is reproducible across the species axis (§3.3), the East-West regime axis (§3.4), the SITECLCD class axis (§3.6), and the parent material axis (§3.14): the same opposite-sign disagreement reappears at each. This rules out single-axis artifact explanations and supports the structural interpretation that site index and FIA productivity classification measure distinct, partially independent productivity dimensions.
 
-A single productivity surface trained pooled across all stand ages will absorb the sign-flip into a flat mean, and the resulting surface will be wrong in opposite directions in young vs old stands.
-
-The multi-dimensional reading, in contrast, names what is happening: site index captures one productivity dimension (long-window height potential), biomass growth captures another (recent annual increment), and the relationship between them is age-dependent. The composite reading handles this correctly.
+The implication for productivity surface modeling: any single national productivity surface that pools across these structural axes will absorb the sign-flip into the regression residuals. The multi-dimensional reading names this directly: site index captures one productivity dimension (long-window height potential), biomass growth captures another (recent annual increment), and the relationship between them depends on which stratification axis you examine. The composite reading handles this correctly by retaining both dimensions as separate input components.
 
 ### 4.5 What single-metric studies miss
 
@@ -408,7 +391,7 @@ A reviewer-style robustness test at the manuscript revision stage revealed that 
 
 The SITECLCD random-forest result (§3.6, Table 3a): BGI alone reaches OOB R² = 0.808; ESI alone reaches 0.751; the six-percentage-point gap is the cleanest single statistic in the paper and is computed without any SI base-age dependency.
 
-The ESI to BGI stand-age sign flip (§3.7, Table 4): correlation = −0.57 at 60 to 80 yr stands, +0.33 at 120+ yr stands. The sign flip is a property of the relationship between two productivity measures (height growth potential and biomass increment) and does not involve SICOND.
+The parent material structural axis (§3.14, Tables 7 and 7a): volcanic soils have the highest mean ESI (39.9 m) but the lowest mean FIA SITECLCD (5.69 of 7); organic soils have the lowest mean ESI (19.2 m) but the highest BGI in the dataset. The opposite-sign disagreement between site index and FIA productivity classification is reproducible across multiple stratifications and is structural in the productivity construct, not artifact of a single grouping variable.
 
 The per-species heterogeneity (§3.3, Table 3): r = 0.028 (yellow-poplar) to r = 0.492 (Douglas-fir). Computed at the species level on observed measures.
 
@@ -438,7 +421,7 @@ Forest site productivity is empirically multi-dimensional. Four productivity mea
 
 FIA's own site productivity classification (SITECLCD) aligns with biomass growth and with a 3-component composite (ESI + BGI + Asym), not with site index alone. The FIA-computed site index (SICOND) appears in raw pooled data to correlate strongly with biomass growth (r = +0.74) and essentially not at all with our unified-target ESI (r = −0.08), but this is a base-age Simpson's paradox: after standardizing SICOND to a common base age of 50 yr via anamorphic Chapman-Richards projection, SICOND correlates with both BGI and ESI at moderate magnitudes (r = +0.45 and +0.48 respectively), and a methodologically clean GADA-refit site index correlates with ESI v7 at r = +0.66 and with BGI at r = +0.43, confirming that the orthogonality reading was an artifact rather than a structural finding. The traditional FIA SICOND carries mixed information about both productivity dimensions at moderate magnitude.
 
-The relationships among the four measures depend strongly on stand age (the ESI–BGI correlation flips sign at 120 years), on species (range −0.02 to +0.53 across major species), on forest type group, and on the eastern hardwood vs western conifer regime. Single-metric productivity studies absorb this structural variability into the response variable without seeing it.
+The relationships among the four measures depend strongly on species (range −0.02 to +0.53 across major species), on the eastern hardwood vs western conifer regime, and on geologic parent material. Site index and FIA SITECLCD disagree directly on parent-material extremes: volcanic soils have the highest mean ESI in the dataset but the lowest FIA productivity rating, while organic soils have the lowest mean ESI but the highest BGI. Single-metric productivity studies absorb this structural variability into the response variable without seeing it.
 
 We release a 3-component Composite Site Productivity Index (CSPI v2; ESI + BGI + Asym, equal weight z-score average) at 30 m as one operationalization of the multi-dimensional view, alongside the four component layers and FIA SICOND as standalone citable products so that downstream users can decompose the composite or use the measure that fits their application. The deposit is at Zenodo concept DOI 10.5281/zenodo.20515034, version 2.0.0 at 10.5281/zenodo.20663652. The v2.0.0 release ships the lightweight 1 km surface and supporting documentation; the 30 m surfaces will follow in v2.1.0 after Zenodo quota approval.
 
