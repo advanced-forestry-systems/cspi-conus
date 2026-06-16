@@ -1,0 +1,5 @@
+stdsz_lbl,n,mean_esi,mean_bgi,mean_asym,r_esi_bgi,r_esi_asym,r_bgi_asym
+1 Large diam,33774,33.21,1.34,246.1,-0.511,0.143,-0.361
+2 Medium diam,14076,28.4,1.56,244.6,-0.49,0.039,-0.335
+3 Small diam,13276,28,1.7,241.4,-0.461,0.099,-0.332
+5 Nonstocked,2048,34.09,1.16,245.9,-0.431,0.001,-0.141

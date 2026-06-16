@@ -418,6 +418,32 @@ The same v9 refit (env + parent material) applied to biomass growth increment (B
 | Volcanic | 238 | 0.908 | 52 | **58** | 38 | BGI (small n) |
 | Lacustrine | 230 | 0.706 | **40** | 41 | 36 | Mixed (small n) |
 
+### 3.16 The multi-dimensional pattern holds across disturbance, treatment, forest type group, and stand density
+
+The structural sign-flip pattern documented above (§3.3 species, §3.4 East-vs-West, §3.14 parent material, §3.15 PM-aware weighting) generalizes to four additional FIA-derived stratifications. We tested whether the ESI to BGI correlation, the ESI to Asym correlation, and the BGI to Asym correlation vary systematically across FIA disturbance code (DSTRBCD1), treatment code (TRTCD1), forest type group (FORTYPCD hundred), and stand size class (STDSZCD). Each stratification produces a wider range of correlations than the variance-explained range we would predict from sampling variation alone (Table 9).
+
+The forest type group stratification is the cleanest result. The ESI to BGI correlation ranges from −0.555 in Oak-Gum-Cypress to +0.591 in Longleaf-Slash pine, a 1.15 unit spread. Spruce-Fir stands (n = 26,730) show a positive correlation of +0.398; White-Red-Jack pine stands (n = 13,238) show essentially zero correlation; Maple-Beech-Birch hardwoods (n = 7,276) show a negative correlation of −0.311. Adding forest type group as a categorical predictor on top of the free 3-component composite improves SITECLCD recovery from OOB R² = 0.801 to 0.853 (+0.052), comparable in magnitude to the L1/L2/L3 hierarchical ecoregion result (+0.054) and producing the same structural reading: forest type group carries productivity-dimension organization information that climate and substrate covariates do not fully encode.
+
+The disturbance code result reinforces the structural reading. The ESI to BGI correlation ranges from −0.715 in geologic-disturbance stands (n = 496) to +0.243 in human-disturbed stands (n = 20). Fire (n = 5,122, r = −0.566) and weather (n = 676, r = −0.565) disturbances both produce strongly negative correlations consistent with the undisturbed baseline (n = 34,658, r = −0.530), whereas insect (n = 3,216, r = −0.103) and disease (n = 2,964, r = +0.207) disturbances disrupt the orthogonality pattern. The treatment code stratification produces a narrower range (−0.664 in cut stands to −0.388 in site-prepared stands) with consistently negative correlations, suggesting that the multi-dimensional pattern is robust to silvicultural treatment in expected directions.
+
+Stand size class produces the narrowest range of all four stratifications. The ESI to BGI correlation is between −0.43 and −0.51 across Large diameter, Medium diameter, Small diameter, and Nonstocked classes. This is the result we want for an operational productivity composite: the multi-dimensional pattern is robust to stocking level, which means the 3-component composite (CSPI v2) carries the same structural reading across early, mid, and late successional stand conditions.
+
+**Table 9.** Range of ESI-BGI correlation across four FIA-derived stratifications. Wider ranges indicate more structural variation in productivity-dimension orthogonality.
+
+| Stratification | n categories | r(ESI,BGI) range | Range width |
+|----------------|--------------|------------------|-------------|
+| Forest type group (FORTYPCD hundred) | 9 | −0.555 to +0.591 | 1.15 |
+| Disturbance (DSTRBCD1) | 10 | −0.715 to +0.243 | 0.96 |
+| Species (SPCD, §3.3 reference) | 12 | −0.02 to +0.53 | 0.55 |
+| Treatment (TRTCD1) | 6 | −0.664 to −0.388 | 0.28 |
+| Stand size class (STDSZCD) | 4 | −0.511 to −0.431 | 0.08 |
+
+The pattern that emerges is consistent. Productivity-dimension orthogonality is structurally organized by what kind of forest is on the plot (species, forest type group, parent material) and by what has happened to it (disturbance, treatment). It is approximately invariant to how much wood is currently there (stand size class). A single-metric study at the FIA plot level absorbs this structural variation into the response variable without seeing it; a multi-dimensional study makes it visible. The CSPI v2 composite operationalizes the multi-dimensional view at CONUS scale and at 30 m, with the four component layers shipped alongside so users can decompose the structural reading by any of these axes for their application.
+
+### 3.17 Asym v9 refit on the v3 surface predictor stack
+
+The plot-level Asym v9 test in §3.14 used the saturated v7 covariate stack (16 predictors) and produced ΔR² = +0.006. For the v3.0.0 surface release the operational predictor stack is the v3 aligned 30 m grid (11 predictors: SoilGrids 0–5 cm sand, soil organic carbon, bulk density, cation exchange capacity, nitrogen, pH; SRTM 30 m elevation, slope, aspect; Hansen tree cover and loss). Refitting Asym v7 (env only) and Asym v9 (env + parent material) on this operationally-realistic stack at n = 31,463 plots produces OOB R² = 0.828 baseline → 0.836 with PM (ΔR² = +0.0078; OOB RMSE 8.40 → 8.21 Mg ha⁻¹; pm_factor ranks 8 of 12 by impurity importance, between bdod_0_5 and slope). The marginal gain on the operational stack is approximately 25 percent larger than on the saturated v7 stack, consistent with the ecological reading that parent material carries deep-substrate information that surface SoilGrids variables do not fully capture. The v3.0.0 release ships the Asym v9 corrective surface alongside the ESI v7 baseline; the per-pixel ΔAsym = v9 − v7 layer is a separately citable product for users who want to see where parent material reorganizes long-run carrying capacity predictions.
+
 **Table 7c.** Per-parent-material distribution of plot-level ΔESI = v9 − v7 (both models no LAT/LON). All numbers in metres.
 
 | Parent material | n | Mean Δ | Median Δ | SD Δ | q05 | q95 | % \|Δ\| > 1 m |

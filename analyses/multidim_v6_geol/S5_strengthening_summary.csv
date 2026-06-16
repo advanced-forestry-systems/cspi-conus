@@ -1,0 +1,5 @@
+stratification,n_categories,range_r_esi_bgi,range_r_esi_asym
+Disturbance (DSTRBCD1),10,-0.715 to 0.243,-0.322 to 0.37
+Treatment (TRTCD1),6,-0.664 to -0.388,-0.206 to 0.366
+Forest type group (FORTYPCD hundred),9,-0.555 to 0.591,-0.216 to 0.26
+Stand size class (STDSZCD),4,-0.511 to -0.431,0.001 to 0.143

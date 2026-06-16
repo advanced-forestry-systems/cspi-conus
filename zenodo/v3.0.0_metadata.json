@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "title": "Composite Site Productivity Index (CSPI) v3.0.0: ESI v7 + Asym v9 + parent material overlay for the conterminous United States",
+    "upload_type": "dataset",
+    "publication_date": "2026-06-15",
+    "description": "Version 3.0.0 of the CSPI surface release. Extends the v2.0.0 multi-dimensional composite (ESI v7 + BGI + Asym + NPP, plus 3-component CSPI v2) with three new products motivated by the v0.10j manuscript analysis: (1) Asym v9 corrective surface at 30 m, refit on the v3 environmental predictor stack (SoilGrids 0-5 cm, SRTM terrain, Hansen tree cover) plus gSSURGO parent material category as a 10-class categorical predictor, OOB R^2 = 0.836 versus the v7 climate-only baseline of 0.828 (delta R^2 = +0.008, RMSE drop 8.40 to 8.21 Mg ha-1). (2) Parent material 30 m CONUS raster derived from gSSURGO copmgrp.pmgroupname grouped into 10 categories (Residuum, Alluvial, Marine, Glacial, Colluvium, Eolian, Other, Organic, Volcanic, Lacustrine), 1.4 billion pixels, 255 MB compressed, intended as a separately citable overlay layer for users who want to stratify their own productivity analyses by geology. (3) Delta Asym = v9 - v7 difference layer at 30 m showing where adding parent material reorganizes asymptotic biomass predictions; the largest reorganizations are over Organic peatlands (upper Great Lakes, northern New England) and Volcanic substrates (inland Pacific Northwest). All three new products ship alongside the v2.0.0 baseline layers. The manuscript framing is that parent material acts as a cross-sectional stratification axis for ESI (height growth potential) and BGI (current biomass growth rate) but as a substantive predictive covariate for Asym (long-run carrying capacity), consistent with the ecological reading that deep substrate (rooting depth, bedrock chemistry, drainage class) influences carrying capacity more than short-run growth dynamics. v3.0.0 is the data release accompanying the manuscript Weiskittel 2026 (Forest Ecology and Management, in preparation). License CC-BY-4.0. See NEWS.md for the full v2.0.0 to v3.0.0 changelog and analyses/ for the underlying CSVs.",
+    "creators": [
+      {
+        "name": "Weiskittel, Aaron R.",
+        "affiliation": "University of Maine, Center for Research on Sustainable Forests",
+        "orcid": "0000-0003-2534-4478"
+      }
+    ],
+    "access_right": "open",
+    "license": "cc-by-4.0",
+    "keywords": [
+      "forest site productivity",
+      "site index",
+      "biomass growth increment",
+      "asymptotic biomass",
+      "Composite Site Productivity Index",
+      "CSPI",
+      "ESI",
+      "BGI",
+      "Asym",
+      "gSSURGO",
+      "parent material",
+      "geology",
+      "soil productivity",
+      "FIA",
+      "CONUS",
+      "30 m",
+      "random forest",
+      "FAIR",
+      "GeoTIFF"
+    ],
+    "communities": [
+      {"identifier": "umaine"}
+    ],
+    "related_identifiers": [
+      {
+        "relation": "isVersionOf",
+        "identifier": "10.5281/zenodo.20515034",
+        "scheme": "doi",
+        "resource_type": "dataset"
+      },
+      {
+        "relation": "isPreviousVersionOf",
+        "identifier": "10.5281/zenodo.20663652",
+        "scheme": "doi",
+        "resource_type": "dataset"
+      },
+      {
+        "relation": "isSupplementTo",
+        "identifier": "10.5281/zenodo.20693106",
+        "scheme": "doi",
+        "resource_type": "dataset",
+        "description": "Analytical chain v1.0.0"
+      }
+    ],
+    "version": "3.0.0"
+  }
+}
