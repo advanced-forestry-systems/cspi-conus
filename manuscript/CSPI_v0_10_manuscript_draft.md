@@ -444,6 +444,23 @@ The pattern that emerges is consistent. Productivity-dimension orthogonality is 
 
 The plot-level Asym v9 test in §3.14 used the saturated v7 covariate stack (16 predictors) and produced ΔR² = +0.006. For the v3.0.0 surface release the operational predictor stack is the v3 aligned 30 m grid (11 predictors: SoilGrids 0–5 cm sand, soil organic carbon, bulk density, cation exchange capacity, nitrogen, pH; SRTM 30 m elevation, slope, aspect; Hansen tree cover and loss). Refitting Asym v7 (env only) and Asym v9 (env + parent material) on this operationally-realistic stack at n = 31,463 plots produces OOB R² = 0.828 baseline → 0.836 with PM (ΔR² = +0.0078; OOB RMSE 8.40 → 8.21 Mg ha⁻¹; pm_factor ranks 8 of 12 by impurity importance, between bdod_0_5 and slope). The marginal gain on the operational stack is approximately 25 percent larger than on the saturated v7 stack, consistent with the ecological reading that parent material carries deep-substrate information that surface SoilGrids variables do not fully capture. The v3.0.0 release ships the Asym v9 corrective surface alongside the ESI v7 baseline; the per-pixel ΔAsym = v9 − v7 layer is a separately citable product for users who want to see where parent material reorganizes long-run carrying capacity predictions.
 
+The plot-level spatial diagnostic for Asym (Figure 13, n = 31,463 plots with PM and full v3 covariate stack) shows a more textured reorganization pattern than ESI did. Mean |ΔAsym| = 0.59 Mg ha⁻¹ on a mean Asym scale of approximately 250 Mg ha⁻¹, with 0.1 percent of plots shifting by more than 5 Mg ha⁻¹ and none beyond 15 Mg ha⁻¹. The per-PM mean shifts (Table 9b) carry directional information that ESI did not: Marine sediments are downshifted by 0.42 Mg ha⁻¹ on average (the largest of any category and the only negative shift larger than 0.25 Mg ha⁻¹), Eolian and Colluvium are slightly downshifted, Residuum is essentially unchanged, and Alluvial, Volcanic, and Other are upshifted by 0.29 to 0.50 Mg ha⁻¹. This is the directional pattern an ecological reading predicts: the substrates with relatively low surface-soil indicators but deep productive rooting volume (Alluvial, Volcanic) move up when PM enters the predictor stack, while the substrates with shallow rooting limits or salinity constraints (Marine) move down. Single-axis (climate-only) carrying-capacity estimation absorbs this pattern into prediction error rather than producing it as a separable structural axis.
+
+**Table 9b.** Per-parent-material ΔAsym = v9 − v7 at FIA plots (both models no LAT/LON; v3 predictor stack). All units Mg ha⁻¹.
+
+| Parent material | n | Mean Δ | Median Δ | SD Δ | q05 | q95 | % \|Δ\| > 5 |
+|---|---|---|---|---|---|---|---|
+| Residuum | 9,852 | +0.09 | +0.06 | 0.86 | −1.04 | +1.39 | 0.2 |
+| Alluvial | 5,859 | +0.29 | +0.16 | 0.93 | −0.94 | +1.97 | 0.1 |
+| **Marine** | **5,584** | **−0.42** | **−0.36** | **0.82** | **−1.82** | **+0.69** | **0.1** |
+| Glacial | 4,225 | +0.04 | −0.01 | 0.65 | −0.91 | +1.13 | 0.0 |
+| Colluvium | 2,789 | −0.20 | −0.17 | 0.60 | −1.13 | +0.65 | 0.0 |
+| Eolian | 1,717 | −0.25 | −0.20 | 0.83 | −1.66 | +1.00 | 0.1 |
+| Other | 742 | +0.50 | +0.31 | 1.10 | −0.95 | +2.44 | 0.4 |
+| Organic | 287 | −0.16 | −0.07 | 0.79 | −1.57 | +0.88 | 0.0 |
+| Volcanic | 218 | +0.29 | +0.23 | 0.76 | −0.85 | +1.67 | 0.0 |
+| Lacustrine | 190 | −0.03 | −0.01 | 0.79 | −1.37 | +1.00 | 0.0 |
+
 **Table 7c.** Per-parent-material distribution of plot-level ΔESI = v9 − v7 (both models no LAT/LON). All numbers in metres.
 
 | Parent material | n | Mean Δ | Median Δ | SD Δ | q05 | q95 | % \|Δ\| > 1 m |
