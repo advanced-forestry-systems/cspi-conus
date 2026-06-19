@@ -43,6 +43,8 @@ v3.0.0 DOI: pending Zenodo deposit
 v2.0.0 (previous): https://doi.org/10.5281/zenodo.20663652
 Analytical chain DOI: https://doi.org/10.5281/zenodo.20693106
 
+v3.0.0 DOI: https://doi.org/10.5281/zenodo.20763197
+
 License: CC-BY-4.0. Companion manuscript: Weiskittel A.R. (in preparation, Forest Ecology and Management).
 
 Pipeline repo: https://github.com/holoros/cspi-conus
