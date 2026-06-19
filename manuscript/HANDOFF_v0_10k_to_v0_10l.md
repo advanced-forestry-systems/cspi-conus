@@ -1,82 +1,67 @@
 # CSPI Manuscript & v3.0.0 Release Handoff
-## End of session 18 June 2026 → next session
+## End of session 19 June 2026 → next session
 
 This doc captures the full state for picking up where we left off. The prompt for the next session is at the bottom.
 
 ## Where we are
 
-The CSPI multi-dimensional productivity manuscript is at draft **v0.10k**. It has been restructured to lead with the two-story arc Aaron requested: a primary story about cross-metric relationships and connection to traditional FIA SICOND/SITECLCD, and a secondary story about structural drivers of metric divergence (regional variation, species heterogeneity, biological implications). The new §3.18 (Disturbance × EPA L3 ecoregion interaction) is the strongest single piece of evidence in the paper that metric divergence is structural rather than methodological: joint stratification produces r(ESI,BGI) range of 1.40 across 115 cells, wider than any single-axis stratification.
+The CSPI multi-dimensional productivity manuscript is at draft **v0.10k** with the two-story arc Aaron requested. New §3.18 (DSTRBCD1 × EPA L3 ecoregion interaction) is the strongest single piece of evidence in the paper that productivity-dimension orthogonality is structural rather than methodological: joint stratification yields r(ESI,BGI) range of 1.40 across 115 cells, wider than any single-axis stratification.
 
-The v3.0.0 surface release is most of the way there. The ASYM_V9_CONUS_30m.tif headline mosaic (90,000 × 212,400 pixels, 13 GB) is built and saved on Cardinal at `/users/PUOM0008/crsfaaron/raster_layers/asym_v9/`. The forest-mask + delta layer pipeline is currently running in a GDAL-streaming job after an R/terra OOM at 128 GB.
+The v3.0.0 surface release is **fully staged and dependency-queued to fire automatically**. The ASYM_V9_CONUS_30m.tif mosaic (13 GB, 90,000 × 212,400 pixels) is built. The forest-mask streaming job (11786566) is currently running and writing `ASYM_V9_CONUS_30m_fmasked.tif` (rate has slowed to ~12 MB/min in the second half; estimated landing later today). The Zenodo deposit job (11786731) is dependency-queued (`afterok:11786566`) and will fire as a **draft** (no autopublish) the moment the surface lands.
+
+The delta layer (ASYM_DELTA_v9_v7_CONUS_30m.tif) is partially written and orphaned on disk. The v3.0.1 release will ship it after a clean single-job rebuild.
 
 ## What's in flight on Cardinal
 
-Job **11786104** (`asym_fm`). Streams the forest mask onto ASYM_V9_CONUS_30m.tif using terra::lapp block-level streaming with the v7 forest CSPI raster as the mask source. Output: `ASYM_V9_CONUS_30m_forestmasked.tif`. Expected ~60 minutes total wall time from job start; rate is approximately 150 MB/min on the compressed output.
+| Job | What | State |
+|---|---|---|
+| 11786566 | asym_fm: forest-masked Asym v9 30m output | RUNNING (~30% done at last poll) |
+| 11786731 | cspi_v3_zen: dependency upload to Zenodo as draft | PENDING on Dependency |
 
-The original combined R/terra job (11741898) and a streaming GDAL alternative (11741898 → asym_terra 11784891) ran into two distinct issues. The R/terra job 11741898 OOM'd at 128 GB attempting to materialize the full v7-resampled raster. The streaming GDAL alternative (`gdal_calc.py`) is not in PATH on the Cardinal gdal/3.7.3 module. The R/terra streaming alternative 11784891 worked for step 1 (delta layer) but conflicted with the parallel fm-only job on file write, so the terra job was cancelled. The cleanest path forward is the parallel `asym_fm` job currently running.
+When 11786566 lands, 11786731 will auto-fire. It runs `upload_to_zenodo.py` against the staged metadata and creates a DRAFT deposit (no `--publish` flag). You can then verify via the Zenodo web UI and click publish manually.
 
-The delta layer (ASYM_DELTA_v9_v7_CONUS_30m.tif) is partially written (~7 GB of ~13 GB expected) on disk but was orphaned when the terra job cancelled. It can be deleted (user must do this; deletions on Cardinal are prohibited from this session) or used as a partial start point for a clean delta rebuild in the next session.
+## What's in the v3.0.0 deposit
 
-## v3.0.0 release direction (clear, no decision needed)
+| File | Where on Cardinal | Size |
+|---|---|---|
+| ASYM_V9_CONUS_30m_fmasked.tif (in flight) | `/users/PUOM0008/crsfaaron/raster_layers/asym_v9/` | ~6 GB est |
+| parent_material_30m_CONUS_4326.tif | `/fs/scratch/PUOM0008/crsfaaron/cspi_v7/multidim_v6_geol/` | 294 MB |
+| m_asym_v9_v3stack.rds | `/fs/scratch/PUOM0008/crsfaaron/cspi_v7/multidim_v6_geol/` | 83 MB |
+| NEWS_v3.0.0.md | `/fs/scratch/PUOM0008/crsfaaron/zenodo_staging/cspi-v3/` | ~5 KB |
 
-Ship two new products alongside the v2.0.0 baseline. The delta layer is now deferred to v3.0.1.
+Metadata: `/fs/scratch/PUOM0008/crsfaaron/zenodo_staging/cspi-v3/metadata.json`. Upload script: same dir, `upload_to_zenodo.py`. Files list: same dir, `files_to_upload.txt`. Slurm wrapper: same dir, `fire_upload.slurm`.
 
-1. `ASYM_V9_CONUS_30m_forestmasked.tif` — the headline corrective surface for asymptotic biomass. OOB R² = 0.836 vs v7 baseline 0.828, ΔR² = +0.0078, RMSE 8.40 → 8.21 Mg/ha. PM is the substantive driver.
-2. `parent_material_30m_CONUS_4326.tif` (already built, 307 MB) — gSSURGO-derived 10-class parent material raster as a separately citable overlay.
+## Remaining tasks for FEM submission
 
-Metadata template at `cspi-conus/zenodo/v3.0.0_metadata.json` is ready to fire via the `zenodo-deposit` skill.
-
-## Tasks remaining for FEM submission
-
-Listed in priority order. Sub-5-minute items in italics.
-
-1. **Coauthor review email send** *(your call, drafted in earlier session)*. Sending to Anthony D'Amato and Jereme Frank with the v0.10k docx attached gets the manuscript moving toward submission.
-2. **v3.0.0 deposit fire** (next session, autopilot-ready). Once the forest-mask + delta layers land, the deposit script runs and the v3.0.0 DOI is minted within an hour.
-3. **Backfill v3.0.0 DOI into manuscript abstract + §7 + NEWS** *(autopilot-ready after Zenodo mints)*.
-4. **NEWS.md v0.10k update** for the cspi-conus repo, summarizing the §3.18 result + two-story reframe + Asym v9 surface deposit.
-5. **Optional final polish pass** — fact-check Tables 1, 2, 3, 7, 8, 9, 9c numbers against the underlying CSVs in `analyses/multidim_v6_geol/`. Already done for v0.10g; only Table 9c and §3.18 prose are new and would benefit from one more pass.
-6. **Submit to Forest Ecology and Management** *(your action; the package is ready)*.
+1. **Verify Zenodo deposit landed as draft.** Once 11786731 completes, inspect its output log at `/fs/scratch/PUOM0008/crsfaaron/cspi_v7/logs/cspi_v3_zen_*.out`. The script prints the deposit ID and pre-mint DOI on success.
+2. **Publish via Zenodo web UI.** Log in at zenodo.org, find the CSPI v3.0.0 draft, verify the metadata and files, click publish. The DOI mints at that moment.
+3. **Backfill the minted DOI** into manuscript Abstract + §7 Data and Code Availability, NEWS_v3.0.0.md, and cspi-conus README. Regenerate docx + PPTX with the new DOI.
+4. **Send coauthor review email** to Anthony D'Amato and Jereme Frank with the v0.10k docx attached. The drafted email is in the project folder from an earlier session.
+5. **Submit to Forest Ecology and Management.** The package is ready.
 
 ## What's done in this session
 
-The autopilot push covered nine main items:
+- v0.10k manuscript reorganization to two-story arc (Abstract reframed, §3 split with explicit Primary/Secondary divider headings, §3.18 new for DSTRB × L3, Conclusion rewritten).
+- Three blocking citation placeholders verified and fixed (Westfall NSVB GTR WO-104 2024, Subedi 2024 FEM, Hoover and Smith 2012 not Smith 2024).
+- NIFA McIntire-Stennis acknowledgment removed (Aaron has no MAFES appointment).
+- ASYM_V9_CONUS_30m.tif tile-array predict + mosaic complete.
+- Forest-mask streaming job in flight; Zenodo dependency-queued.
+- v3.0.0 scope-down to 2 products (delta deferred to v3.0.1).
+- docx + PPTX regenerated for v0.10k.
+- Commits on holoros/cspi-conus: 9333cf4, 381fb17, 4acb1f4, 5743b2d, 8c39a4e, 58ed07d, 1afacba, d77c9f9, 238a7c1.
 
-1. v9 BGI and Asym tests on parent material (PM is most useful for Asym, ΔR² = +0.006 on v7 stack, ΔR² = +0.008 on v3 stack).
-2. PM-aware composite weighting (per-PM optimal weights heterogeneous: Alluvial+Residuum BGI-dominated, Marine ESI≈Asym, Colluvium+Glacial ESI-dominated).
-3. Five strengthening stratifications (DSTRBCD1, TRTCD1, FORTYPCD, STDSZCD, plus the headline DSTRB × L3 interaction).
-4. Three blocking citation placeholders verified and fixed (Westfall NSVB GTR WO-104 2024, Subedi 2024 FEM, Hoover and Smith 2012 not Smith 2024).
-5. NIFA McIntire-Stennis acknowledgment removed (Aaron has no MAFES appointment).
-6. ASYM_V9_CONUS_30m.tif tile-array predict + mosaic (240 tiles, 30m CONUS).
-7. v0.10k manuscript reorganization to two-story arc (Abstract, §3 dividers, §3.18 new, Conclusion).
-8. docx + PPTX regenerated for v0.10k (CSPI_v0_10k_FEM_combined.docx, CSPI_v10k_collaborators_overview.pptx).
-9. Forest-mask + delta layers in-flight via GDAL streaming.
-
-Commits on holoros/cspi-conus: 9333cf4, 381fb17, 4acb1f4, 5743b2d, 8c39a4e, 58ed07d, 1afacba.
-
-## Key paths on Cardinal
+## Key paths
 
 | What | Where |
 |---|---|
-| Asym v9 model | `/fs/scratch/PUOM0008/crsfaaron/cspi_v7/multidim_v6_geol/m_asym_v9_v3stack.rds` |
-| Asym v9 30m mosaic | `/users/PUOM0008/crsfaaron/raster_layers/asym_v9/ASYM_V9_CONUS_30m.tif` |
-| Asym v9 forest-masked | (in flight) `ASYM_V9_CONUS_30m_forestmasked.tif` same dir |
-| Asym delta layer | (in flight) `ASYM_DELTA_v9_v7_CONUS_30m.tif` same dir |
-| Parent material 30m EPSG:4326 | `/fs/scratch/PUOM0008/crsfaaron/cspi_v7/multidim_v6_geol/parent_material_30m_CONUS_4326.tif` |
-| GADA SI plot extracts | `/fs/scratch/PUOM0008/crsfaaron/cspi_v7/multidim_v5_L3/` |
-| Plot-level diagnostics | `/fs/scratch/PUOM0008/crsfaaron/cspi_v7/multidim_v6_geol/PM*.csv`, `S*.csv` |
-| Predict tile scripts | `/users/PUOM0008/crsfaaron/fvs-conus/R/eval/cspi_v3/predict_asym_v9_tiled.r` |
-| Post-surface streaming GDAL | `/users/PUOM0008/crsfaaron/fvs-conus/R/eval/cspi_v3/asym_v9_postfix_gdal.sh` |
-
-## Key paths locally
-
-| What | Where |
-|---|---|
-| Manuscript | `/home/aweiskittel/Documents/Claude/CRSF-Cowork/active-projects/bgi-cspi-conus/v5/CSPI_v0_10_manuscript_draft.md` (now at v0.10k content) |
-| docx | `CSPI_v0_10k_FEM_combined.docx` |
-| PPTX | `CSPI_v10k_collaborators_overview.pptx` |
-| Zenodo v3 metadata | `cspi-conus/zenodo/v3.0.0_metadata.json` |
+| v0.10k manuscript | `/home/aweiskittel/Documents/Claude/CRSF-Cowork/active-projects/bgi-cspi-conus/v5/CSPI_v0_10_manuscript_draft.md` |
+| v0.10k docx | `CSPI_v0_10k_FEM_combined.docx` |
+| v0.10k PPTX | `CSPI_v10k_collaborators_overview.pptx` |
+| v3.0.0 metadata | `cspi-conus/zenodo/v3.0.0_metadata.json` |
 | NEWS v3.0.0 | `cspi-conus/NEWS_v3.0.0.md` |
-| v3 release path forward | `v3_release_path_forward.md` (now mostly superseded by this handoff) |
+| Zenodo staging on Cardinal | `/fs/scratch/PUOM0008/crsfaaron/zenodo_staging/cspi-v3/` |
+| Asym v9 30m surface | `/users/PUOM0008/crsfaaron/raster_layers/asym_v9/ASYM_V9_CONUS_30m_fmasked.tif` |
+| Parent material 30m EPSG:4326 | `/fs/scratch/PUOM0008/crsfaaron/cspi_v7/multidim_v6_geol/parent_material_30m_CONUS_4326.tif` |
 
 ---
 
@@ -84,18 +69,18 @@ Commits on holoros/cspi-conus: 9333cf4, 381fb17, 4acb1f4, 5743b2d, 8c39a4e, 58ed
 
 Paste this verbatim into the next session to pick up where we left off.
 
-> The CSPI multi-dimensional productivity manuscript is at draft v0.10k with the two-story arc reorganization Aaron requested (primary story: cross-metric vs traditional FIA SICOND/SITECLCD + CSPI v2 development; secondary story: drivers of metric divergence including the new §3.18 disturbance × ecoregion interaction). The v3.0.0 surface release is most of the way to deposit-ready: ASYM_V9_CONUS_30m.tif is built (90k × 212k pixels, 13 GB), and the forest-mask + delta layer pipeline is in flight on Cardinal as job 11741898 via a streaming GDAL pipeline. Full state is documented at `/home/aweiskittel/Documents/Claude/CRSF-Cowork/active-projects/bgi-cspi-conus/v5/HANDOFF_v0_10k_to_v0_10l.md`. Please pick up by:
+> The CSPI v3.0.0 surface release was set up as an autonomous Cardinal pipeline at the end of the last session. Job 11786566 produces ASYM_V9_CONUS_30m_fmasked.tif via terra block-streaming. Job 11786731 is dependency-queued (afterok:11786566) and auto-fires the Zenodo deposit script as a draft (no autopublish) when the surface lands. The full state is documented at `/home/aweiskittel/Documents/Claude/CRSF-Cowork/active-projects/bgi-cspi-conus/v5/HANDOFF_v0_10k_to_v0_10l.md`. Please pick up by:
 >
-> 1. SSH into Cardinal and verify job 11741898 (`asym_gdal`) completed cleanly. Check sacct, the log tail, and that `ASYM_V9_CONUS_30m_forestmasked.tif`, `ASYM_DELTA_v9_v7_CONUS_30m.tif`, and `ASYM_DELTA_v9_v7_CONUS_30m_forestmasked.tif` all exist in `/users/PUOM0008/crsfaaron/raster_layers/asym_v9/`.
-> 2. If the streaming GDAL job hit disk space (the intermediate `asym_v7_resampled_30m.tif` is 37.6 GB), free space on scratch and resubmit just the delta step.
-> 3. Once all four output rasters are present, fire the v3.0.0 Zenodo deposit using the `zenodo-deposit` skill and the metadata at `cspi-conus/zenodo/v3.0.0_metadata.json`. Upload: ASYM_V9_CONUS_30m_forestmasked.tif, ASYM_DELTA_v9_v7_CONUS_30m_forestmasked.tif, parent_material_30m_CONUS_4326.tif, m_asym_v9_v3stack.rds, NEWS_v3.0.0.md.
-> 4. Once Zenodo mints the v3.0.0 DOI, backfill it into the manuscript Abstract, §7 Data and Code Availability, NEWS, and Zenodo concept record.
-> 5. Update the cspi-conus repo NEWS.md with the v0.10k two-story reorganization, the §3.18 result, and the v3.0.0 surface release. Commit and push.
-> 6. Refresh the v0.10k docx and PPTX with the minted v3.0.0 DOI.
-> 7. Confirm everything is ready for Aaron to send to coauthors (Anthony D'Amato, Jereme Frank). The coauthor review email was drafted in an earlier session; locate it in the project folder and verify it references the right docx version.
+> 1. SSH into Cardinal. Check `sacct -j 11786566` and `sacct -j 11786731` to see if both jobs completed.
+> 2. If 11786731 completed, read its log at `/fs/scratch/PUOM0008/crsfaaron/cspi_v7/logs/cspi_v3_zen_*.out`. Look for the Zenodo deposit ID and pre-mint DOI URL. Report these to Aaron.
+> 3. If 11786731 failed, diagnose by reading the err log. Common failures are: stale TIFF handle (re-fire with fresh output filename), token auth failure (verify ~/.zenodo_token mode 600 with at least one curl GET against zenodo.org/api/deposit/depositions), or metadata validation error (the script prints the server response body).
+> 4. If both jobs completed cleanly, walk Aaron through publishing the draft via the Zenodo web UI (he will manually click publish; the DOI mints at that moment).
+> 5. Once Aaron has the minted DOI, backfill it into the v0.10k manuscript Abstract + §7 Data and Code Availability, cspi-conus/NEWS_v3.0.0.md, and cspi-conus/README. Regenerate `CSPI_v0_10k_FEM_combined.docx` and `CSPI_v10k_collaborators_overview.pptx` with the new DOI references. Commit and push to holoros/cspi-conus.
+> 6. Confirm coauthor review email is ready to send (Anthony D'Amato + Jereme Frank). The draft is in the project folder from earlier sessions.
+> 7. v3.0.1 follow-up: rebuild ASYM_DELTA_v9_v7_CONUS_30m.tif as a clean single-job streaming pipeline. The partial 7 GB delta file is orphaned on disk; Aaron must delete it manually (deletions on Cardinal are prohibited from autopilot sessions).
 >
-> If at any step Cardinal job state is ambiguous, write a short status note and ask Aaron how to proceed before doing destructive operations. Per Aaron's security policy: file deletions on Cardinal are prohibited (provide rm commands as text only); Zenodo token at `~/.zenodo_token` on Cardinal mode 600 — never echo to stdout; GitHub PAT at `/sessions/.../.gh-holoros/token`; never place tokens in URL query params (use Authorization Bearer header); IAM permission grants are user-only.
+> Security policy: file deletions on Cardinal are prohibited (provide rm commands as text only). Zenodo token at `~/.zenodo_token` on Cardinal mode 600. Never echo to stdout. GitHub PAT at `/sessions/.../.gh-holoros/token`. Never place tokens in URL query params (use Authorization Bearer header). IAM permission grants are user-only.
 >
-> The work is funded by the University of Maine Center for Research on Sustainable Forests (CRSF) only. Aaron does not have a MAFES appointment so do not reattribute to NIFA McIntire-Stennis under any circumstances.
+> Funding: University of Maine Center for Research on Sustainable Forests (CRSF) only. Aaron does not have a MAFES appointment so do not reattribute to NIFA McIntire-Stennis.
 >
-> Style preferences: retain past knowledge and provide R code when possible, Python when useful. Do not use hyphens (they are a clear AI tell in prose).
+> Style preferences: retain past knowledge and provide R code when possible, Python when useful. Do not use hyphens in prose (they are an AI tell).
