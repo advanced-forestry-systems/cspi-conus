@@ -1,0 +1,3 @@
+target,units,n_predictors,oob_r2
+"Asym v9 (FIA-derived, v3 manuscript)",Mg ha-1 biomass,12,0.836
+"MOD17 NPP_obs (satellite, this analysis)",g C m-2 yr-1,12,0.918966979742501
