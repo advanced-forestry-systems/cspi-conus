@@ -39,9 +39,24 @@ Cross-checked CSPI v7 (operational composite) against published mean annual NPP 
 - Western montane sites compress the correlation: Niwot Ridge (CSPI 35.8, NPP 350), Valles Caldera Mixed Conifer (40.3, 375), Valles Caldera Ponderosa (41.5, 350), Metolius Young (45.3, 410). At all four, high height-growth potential coexists with low published NPP, reproducing the §3.14 volcanic-substrate orthogonality at an external (non-FIA) network.
 - Read as structural confirmation that the multi-dimensional argument is biological, not a FIA-measurement-chain artifact. Sample size (n = 28) too small to anchor a specific R² value.
 
-### Episodic wind disturbance: HURDAT2 (Cardinal autopilot job 11944906, in flight)
+### Episodic wind disturbance: HURDAT2 (added in §3.22)
 
-If HURDAT2 hurricane track density at 0.25 deg cells over CONUS shows a residual signal where TerraClimate mean wind did not, it would be reported as v3.0.1 §3.21b. If null, the v0.10m wind null finding stands. Results pending.
+Tested NOAA HURDAT2 tropical cyclone track density (1851-2024 TS+ winds) at 31,463 v9 plots. Residual r = -0.028 (Pearson) and -0.032 (Spearman). Per-PM: Marine plots most exposed (1.13 storms / cell mean), residual r = -0.019. Eolian r = -0.037. Alluvial (most ecologically coherent direction) r = -0.070. Volcanic plots have zero exposure (natural control). All per-PM |r| < 0.07. Combined with the mean-wind null in §3.21, the wind axis is fully closed at continental scale.
+
+### RS-target validation: MODIS NPP (added in §3.23, primary v3.0.1 finding)
+
+The v9 environmental stack was tested as a predictor of satellite-observed MODIS MOD17A3HGF annual NPP at 61,656 forested CONUS plot locations, with FIA-derived metrics (SI, BGI, Asym, CSPI) explicitly excluded from the predictor set.
+
+- Out-of-bag R² = **0.919** for the v3 stack (12 covariates: water-balance, radiation, VPD, wind, N deposition, distance to coast, parent material)
+- Climate-only baseline R² = 0.897; parent material ΔR² = +0.022 over climate alone (consistent with +0.008 for FIA-target Asym in §3.14)
+- RMSE = 509 g C m⁻² yr⁻¹ on a target mean near 1,500
+- Variable importance: WATER_RATIO (rank 1), WATER_AET (2), WATER_DEF (3), DIST_COAST (4), NDEP (5), SRAD (6)
+
+For direct comparison: the same v3 stack predicting FIA-derived asymptotic biomass (the v3.0.0 surface) recovered Asym at OOB R² = 0.836. **The satellite NPP target is fit 8.3 percentage points better than the FIA-derived biomass target by the same environmental covariate set.**
+
+This is FIA-independent external validation of the v3 environmental stack. The stack is calibrated to the actual biological productivity signal at FIA plot locations regardless of whether the target is FIA-derived (height-based ESI / biomass-based Asym / pair-derived BGI) or satellite-derived (MODIS NPP). The 8.3-point R² gap quantifies the FIA-specific measurement-chain noise contribution (fuzzed coords, allometric uncertainty, base-age standardization, sparse SSURGO joins) at roughly that magnitude.
+
+This finding supports a future FIA-independent productivity surface deployment in v3.1.0 or v4.0.0 using GEDI L4B 1 km biomass density and / or NASA-CMS biomass change as native target rasters.
 
 ### What is unchanged
 
