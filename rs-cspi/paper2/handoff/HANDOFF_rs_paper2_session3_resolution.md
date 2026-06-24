@@ -47,4 +47,4 @@ To publish when ready: add the CONUS 30 m surface and the blocked-CV numbers to 
 
 ## Policy (unchanged)
 
-Cardinal deletions prohibited from autopilot (rm as text only). Tokens never echoed; Bearer header. Funding CRSF only. R first, no decorative hyphens. The FEM manuscript remains untouched at v0.10q pending coauthor review.
+Cardinal deletions prohibited from autopilot (rm as text only). Tokens never echoed; Bearer header. Funding CRSF only. R first, no decorative hyphens. The FEM manuscript remains untouched at v0.10q. This RS-CSPI paper is single-author.

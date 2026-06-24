@@ -45,4 +45,4 @@ File deletions on Cardinal prohibited from autopilot (provide rm as text only). 
 
 ## Note on the FEM paper
 
-This RS-target work is the standalone follow-on. The FEM manuscript stays locked at v0.10q pending coauthor review (D'Amato, Frank). Nothing in this session touched the FEM manuscript. Flag for Aaron: the FEM line has two parallel versions (full v0.10q combined and condensed v0.11 single-paper); the intended submission version is a coauthor/editorial decision still open.
+This RS-target work is the standalone follow-on. The FEM manuscript stays at v0.10q and was not touched this session. Note: the FEM line has two parallel versions (full v0.10q combined and condensed v0.11 single-paper); the intended submission version is still open. This RS-CSPI paper is single-author.
