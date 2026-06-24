@@ -1,0 +1,18 @@
+file,layer_or_object,description,units
+WTW_consensus_productivity_idx_1km_aug.tif,band 1,primary 1km consensus forest productivity index (equal-weight mean of 4 z-standardised target predictions rescaled 0-100),index 0-100
+WTW_consensus_agreement_sd_1km_aug.tif,band 1,per-cell standard deviation across the 4 z-standardised target predictions; low = targets agree,z units
+WTW_consensus_productivity_idx_4p6km.tif,band 1,4.6km companion consensus productivity index,index 0-100
+WTW_consensus_agreement_sd_4p6km.tif,band 1,4.6km companion per-cell agreement layer,z units
+WTW_consensus_z_30m_smokies.tif,band 1,30m pilot tile (southern Appalachians) consensus in z units,z units
+m_npp_aug.rds,ranger model,random forest predicting MODIS NPP from the 43-predictor stack,
+m_agbd_aug.rds,ranger model,random forest predicting GEDI L4B AGBD,
+m_cms16_aug.rds,ranger model,random forest predicting NASA-CMS AGB 2016,
+m_chg_aug.rds,ranger model,random forest predicting NASA-CMS AGB change 2005-2016,
+predictor_names.rds,character vector,the 43 predictor names and order (ClimateNA + terrain + soil + canopy),
+WTW1kmAUG_oob_summary.csv,table,out-of-bag R2 per target for the 1km augmented build,
+WTW1km_oob_summary.csv,table,out-of-bag R2 per target for the 1km climate-only build,
+WTW1_oob_summary.csv,table,out-of-bag R2 per target for the 4.6km build,
+PIX40_perL1_residual_all_targets.csv,table,per EPA Level 1 ecoregion mean residual per target (FIA-plot validation),target units
+PIX50_crosstarget_pearson.csv,table,cross-target Pearson correlation matrix of predicted values,
+rs_wtw_1km_aug.r,script,builds the augmented 1km consensus and saves the models,
+rs_wtw_30m_tile.r,script,tiled 30m prediction reusing the augmented models,
