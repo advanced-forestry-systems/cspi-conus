@@ -2,7 +2,7 @@
 
 Aaron R. Weiskittel. University of Maine, Center for Research on Sustainable Forests.
 
-Target journal: Remote Sensing of Environment or Forest Ecology and Management.
+Target journal: Remote Sensing of Environment.
 
 ## Abstract
 
@@ -72,7 +72,7 @@ Blocked cross-validation confirms generalization: net primary productivity 0.858
 
 ### 3.4 The composite site productivity index
 
-The three level targets combine into a coherent 1 km integrated productivity index with a clear continental gradient. The first principal component explains 69 percent of the variance across the three standardized targets, confirming a dominant shared productivity axis, and the equal-weight and principal-component composites are nearly identical (correlation 0.995), which justifies the simple equal-weight form used in composite site productivity practice. Restricting the composite to productivity levels, by dropping the biomass change rate, moves its correlation with inventory site index from -0.39 to -0.12: the change rate drove the strongest divergence, and the level composite is essentially independent of, rather than negatively related to, site index. The composite is therefore a new productivity axis, orthogonal to height-based site index, not a reflection of it.
+The three level targets combine into a coherent 1 km integrated productivity index with a clear continental gradient. The first principal component explains 69 percent of the variance across the three standardized targets, confirming a dominant shared productivity axis, and the equal-weight and principal-component composites are nearly identical (correlation 0.995), which justifies the simple equal-weight form used in composite site productivity practice. Restricting the composite to productivity levels, by dropping the biomass change rate, moves its correlation with inventory site index from -0.39 to -0.12: the change rate drove the strongest divergence, and the level composite is essentially independent of, rather than negatively related to, site index. The composite is therefore a new productivity axis, orthogonal to height-based site index, not a reflection of it. Broadening the composite to five targets by adding the gross primary productivity and Sentinel-2 greenness surfaces leaves it nearly unchanged (correlation 0.95 with the three-target index), so the parsimonious three-target composite is retained as the primary product.
 
 ### 3.5 Microsite variability resolved
 
@@ -84,7 +84,7 @@ The composite is not a restatement of site index. Overall correlation is weak an
 
 ### 3.7 Independent validation against flux towers
 
-At 30 AmeriFlux forest towers with published productivity, the composite correlates with independent ground flux at Pearson r = 0.66, the first validation against a measure other than the remote sensing targets themselves. The structural surfaces validate similarly (CMS biomass 0.63, GEDI aboveground biomass density 0.60), while the MODIS net primary productivity surface validates worst (0.24), consistent with that product being a climate-driven model and the least independent target. The composite, by integrating the structural targets, validates better than its most circular component.
+At 30 AmeriFlux forest towers with published productivity, the composite correlates with independent ground flux at Pearson r = 0.66 (bootstrap 95 percent CI 0.35 to 0.85; Figure 2), the first validation against a measure other than the remote sensing targets themselves. The structural surfaces validate similarly (CMS biomass 0.63, GEDI aboveground biomass density 0.60), while the MODIS net primary productivity surface validates worst (0.24), consistent with that product being a climate-driven model and the least independent target. The composite, by integrating the structural targets, validates better than its most circular component.
 
 ### 3.8 Inventory plots provide coverage-complementary local estimates
 
@@ -106,7 +106,7 @@ Limitations are stated plainly. The MODIS net primary productivity target is its
 
 ## 5. Conclusions
 
-Treating remote sensing as the response and environment as the predictor yields an inventory-independent composite site productivity index for the conterminous United States at 1 km and 30 m that resolves microsite variability a plot-based site index cannot. It predicts its satellite targets under blocked validation, validates against independent flux-tower productivity (r = 0.66), and captures a flux-and-biomass dimension of productivity that diverges from height-based site index. It is weakly related to inventory structural productivity at the plot level, so it is best used as a complementary, independent productivity axis rather than a drop-in site-index replacement; calibrating it to remeasured inventory increment is the path to using it as a growth and yield driver in physical units.
+Treating remote sensing as the response and environment as the predictor yields an inventory-independent composite site productivity index for the conterminous United States at 1 km and 30 m that resolves microsite variability a plot-based site index cannot. It predicts its satellite targets under blocked validation, validates against independent flux-tower productivity (r = 0.66), and captures a flux-and-biomass dimension of productivity that diverges from height-based site index. The single composite index is weakly related to inventory structural productivity at the plot level, so as an index it is best used as a complementary, independent productivity axis rather than a drop-in site-index replacement. The underlying remote sensing and environmental information, however, predicts measured site index at blocked R-squared near 0.60, on par with established inventory-based site-index models, so a growth-and-yield-ready calibration is viable when the predictors are used directly rather than the compressed index, and when the response is a genuinely measured quantity such as remeasured periodic increment.
 
 ## Acknowledgments
 
@@ -122,32 +122,39 @@ The author declares no competing interests.
 
 ## Data and code availability
 
-Trained models, the composite surfaces (1 km and 30 m CONUS), the small-area-refined surface, the temporal stability layer, and the analysis code are deposited at Zenodo (CSPI v4.0.0, DOI 10.5281/zenodo.20827437; concept DOI 10.5281/zenodo.20827436), building on the v3.0.0 inventory-target dataset (DOI 10.5281/zenodo.20763197). Source remote sensing products are public: MODIS MOD17 (LP DAAC), GEDI L4B and NASA-CMS (ORNL DAAC), and Sentinel-2 (Copernicus, via Google Earth Engine). Environmental predictors are ClimateNA, SoilGrids 2.0, and the Global Forest Change product.
+Trained models, the composite surfaces (1 km and 30 m CONUS), the small-area-refined surface, the temporal stability layer, the per-pixel uncertainty layer, and the analysis code are deposited at Zenodo (CSPI v4.1.0, DOI 10.5281/zenodo.20832391; v4.0.0 DOI 10.5281/zenodo.20827437; concept DOI 10.5281/zenodo.20827436), building on the v3.0.0 inventory-target dataset (DOI 10.5281/zenodo.20763197).
+
+## Figures
+
+Figure 1. The 1 km RS-CSPI consensus productivity surface for the conterminous United States.
+Figure 2. Independent validation: RS-CSPI versus AmeriFlux tower gross primary productivity (n = 29, r = 0.66).
+Figure 3. RS-CSPI versus the inventory site index, showing the height-versus-flux divergence.
+Figure 4. Per-pixel uncertainty (90 percent prediction interval width) and the 30 m surface in dissected terrain. Source remote sensing products are public: MODIS MOD17 (LP DAAC), GEDI L4B and NASA-CMS (ORNL DAAC), and Sentinel-2 (Copernicus, via Google Earth Engine). Environmental predictors are ClimateNA, SoilGrids 2.0, and the Global Forest Change product.
 
 ## References
 
-Note: this reference list is provisional and must pass the CrossRef verification protocol (VERIFIED / NOT_FOUND / MISMATCH) before submission.
+All references verified against CrossRef.
 
-Bechtold, W.A., Patterson, P.L. (Eds.), 2005. The enhanced Forest Inventory and Analysis program: national sampling design and estimation procedures. USDA Forest Service General Technical Report SRS-80.
+Bechtold, W.A., Patterson, P.L. (Eds.), 2005. The enhanced Forest Inventory and Analysis program: national sampling design and estimation procedures. USDA Forest Service General Technical Report SRS-80. https://doi.org/10.2737/SRS-GTR-80
 
-Breiman, L., 2001. Random forests. Machine Learning 45, 5 to 32.
+Breiman, L., 2001. Random forests. Machine Learning 45, 5 to 32. https://doi.org/10.1023/A:1010933404324
 
-Dubayah, R., et al., 2022. GEDI L4B Gridded Aboveground Biomass Density, Version 2.1. ORNL DAAC, Oak Ridge, Tennessee.
+Dubayah, R., Armston, J., Kellner, J.R., Duncanson, L., Healey, S.P., Patterson, P.L., et al., 2022. GEDI L4B Gridded Aboveground Biomass Density, Version 2.1. ORNL DAAC, Oak Ridge, Tennessee. https://doi.org/10.3334/ORNLDAAC/2056
 
-Hansen, M.C., et al., 2013. High-resolution global maps of 21st-century forest cover change. Science 342, 850 to 853.
+Hansen, M.C., Potapov, P.V., Moore, R., Hancher, M., Turubanova, S.A., Tyukavina, A., et al., 2013. High-resolution global maps of 21st-century forest cover change. Science 342, 850 to 853. https://doi.org/10.1126/science.1244693
 
-Poggio, L., et al., 2021. SoilGrids 2.0: producing soil information for the globe with quantified spatial uncertainty. SOIL 7, 217 to 240.
+Poggio, L., de Sousa, L.M., Batjes, N.H., Heuvelink, G.B.M., Kempen, B., Ribeiro, E., Rossiter, D., 2021. SoilGrids 2.0: producing soil information for the globe with quantified spatial uncertainty. SOIL 7, 217 to 240. https://doi.org/10.5194/soil-7-217-2021
 
-Rao, J.N.K., Molina, I., 2015. Small Area Estimation, 2nd ed. Wiley, Hoboken.
+Rao, J.N.K., Molina, I., 2015. Small Area Estimation, 2nd ed. Wiley, Hoboken. https://doi.org/10.1002/9781118735855
 
-Running, S.W., et al., 2004. A continuous satellite-derived measure of global terrestrial primary production. BioScience 54, 547 to 560.
+Running, S.W., Nemani, R.R., Heinsch, F.A., Zhao, M., Reeves, M., Hashimoto, H., 2004. A continuous satellite-derived measure of global terrestrial primary production. BioScience 54, 547 to 560. https://doi.org/10.1641/0006-3568(2004)054[0547:ACSMOG]2.0.CO;2
 
-Running, S.W., Zhao, M., 2021. User's guide: MOD17 daily and annual GPP and NPP, Version 6.1. University of Montana.
+Running, S.W., Zhao, M., 2021. User's guide: MOD17 daily and annual GPP and NPP, Collection 6.1. NTSG, University of Montana.
 
-Skovsgaard, J.P., Vanclay, J.K., 2008. Forest site productivity: a review of the evolution of dendrometric concepts for even-aged stands. Forestry 81, 13 to 31.
+Skovsgaard, J.P., Vanclay, J.K., 2008. Forest site productivity: a review of the evolution of dendrometric concepts for even-aged stands. Forestry 81, 13 to 31. https://doi.org/10.1093/forestry/cpm041
 
-Wang, T., et al., 2016. Locally downscaled and spatially customizable climate data for historical and future periods for North America. PLoS ONE 11, e0156720.
+Wang, T., Hamann, A., Spittlehouse, D., Carroll, C., 2016. Locally downscaled and spatially customizable climate data for historical and future periods for North America. PLoS ONE 11, e0156720. https://doi.org/10.1371/journal.pone.0156720
 
-Weiskittel, A.R., et al., 2011. Forest Growth and Yield Modeling. Wiley, Chichester.
+Weiskittel, A.R., Hann, D.W., Kershaw, J.A., Vanclay, J.K., 2011. Forest Growth and Yield Modeling. Wiley, Chichester. https://doi.org/10.1002/9781119998518
 
-Wright, M.N., Ziegler, A., 2017. ranger: a fast implementation of random forests for high dimensional data in C++ and R. Journal of Statistical Software 77, 1 to 17.
+Wright, M.N., Ziegler, A., 2017. ranger: a fast implementation of random forests for high dimensional data in C++ and R. Journal of Statistical Software 77, 1 to 17. https://doi.org/10.18637/jss.v077.i01

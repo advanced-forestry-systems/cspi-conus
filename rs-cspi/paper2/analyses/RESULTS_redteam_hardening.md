@@ -57,6 +57,10 @@ The AmeriFlux correlation is r = 0.66 with a bootstrap 95 percent CI of [0.35, 0
 
 Calibrating the RS-CSPI to FIA productivity at the plot level (blocked CV): biomass asymptote R2 = 0.045, growth index (bgi) R2 = 0.253, site index R2 = 0.051 with a negative slope. The index explains at most a quarter of the inventory growth index and almost none of the structural measures, and is negatively related to site index. Plot coordinate fuzzing and the height-versus-flux divergence both contribute. Honest conclusion: the RS-CSPI is a complementary, independent flux-and-biomass productivity axis validated against flux towers, not a calibrated replacement for site index or a drop-in growth and yield driver. The growth-and-yield framing must be softened to a potential input pending much stronger calibration.
 
+## M2 follow-up. Aggregation does not rescue the calibration.
+
+Calibration R2 of the RS-CSPI against FIA productivity at aggregation scales from the plot to 1 degree: bgi 0.27, 0.02, 0.27, 0.29, 0.30, 0.31; asym 0.06, 0.57, 0.22, 0.03, 0.02, 0.00; SI 0.06, 0.22, 0.28, 0.08, 0.03, 0.03. The growth index improves only modestly with aggregation (to about 0.31 at landscape scale), and asym and SI do not robustly improve (the 0.05 to 0.10 degree spikes are small-sample artifacts from few cells meeting the five-plot minimum). Coordinate fuzzing is therefore not the main cause of the weak calibration; the RS-CSPI is genuinely a different, flux-and-biomass dimension than FIA height and structure productivity. The complementary-axis framing is correct, and the most favorable calibration target is the growth index at landscape scale (R2 about 0.31).
+
 ## Net effect on the paper
 
 The construct survives the stress test, but three claims are corrected to their honest form: the wall-to-wall comparison must be blocked-CV (coverage plus structural gain, not a uniform boost); the SAE is inventory interpolation complemented by RS coverage; and the MODIS-NPP flux number is the least independent and is caveated. The new strength is the independent AmeriFlux validation (r = 0.66). These corrections make the paper more defensible, not less interesting.
