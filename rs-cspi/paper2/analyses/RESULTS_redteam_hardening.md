@@ -49,6 +49,14 @@ Blocked CV decomposition:
 
 The spatial smooth alone equals the combined model; the RS layer adds essentially nothing once the spatial term is in. The earlier "0.71 to 0.94" framing credited the RS backbone, but the gain is kriging-like interpolation of dense FIA. Corrected framing: where inventory is dense, spatial interpolation of inventory alone gives an excellent local surface; the RS-CSPI's role is coverage where plots are sparse, not improving the interpolation where they are dense. The two are complementary in coverage, not a backbone refined by FIA.
 
+## H3 strengthened. Bootstrap CI on the independent validation.
+
+The AmeriFlux correlation is r = 0.66 with a bootstrap 95 percent CI of [0.35, 0.85] (n = 29). The lower bound excludes zero, so the independent validation is a real positive signal, though the interval is wide given the small tower sample.
+
+## M2 (resolved, sobering). The index does not strongly predict FIA productivity, so it is not a drop-in G&Y driver.
+
+Calibrating the RS-CSPI to FIA productivity at the plot level (blocked CV): biomass asymptote R2 = 0.045, growth index (bgi) R2 = 0.253, site index R2 = 0.051 with a negative slope. The index explains at most a quarter of the inventory growth index and almost none of the structural measures, and is negatively related to site index. Plot coordinate fuzzing and the height-versus-flux divergence both contribute. Honest conclusion: the RS-CSPI is a complementary, independent flux-and-biomass productivity axis validated against flux towers, not a calibrated replacement for site index or a drop-in growth and yield driver. The growth-and-yield framing must be softened to a potential input pending much stronger calibration.
+
 ## Net effect on the paper
 
 The construct survives the stress test, but three claims are corrected to their honest form: the wall-to-wall comparison must be blocked-CV (coverage plus structural gain, not a uniform boost); the SAE is inventory interpolation complemented by RS coverage; and the MODIS-NPP flux number is the least independent and is caveated. The new strength is the independent AmeriFlux validation (r = 0.66). These corrections make the paper more defensible, not less interesting.
