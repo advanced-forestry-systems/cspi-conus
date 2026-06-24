@@ -15,7 +15,7 @@ This is the follow-on to the inventory-target CSPI work (advanced-forestry-syste
 
 ## Data and models
 
-Surfaces (1 km and 30 m GeoTIFF), trained random forest models, and the full analysis bundle are archived at Zenodo (CSPI v4.0.0), building on the v3.0.0 inventory-target dataset (DOI 10.5281/zenodo.20763197). Large rasters and models are not committed here; they live on Cardinal and Zenodo.
+Surfaces (1 km and 30 m GeoTIFF), trained random forest models, the temporal stability layer, and the full analysis bundle are archived at Zenodo (CSPI v4.0.0, DOI 10.5281/zenodo.20827437; concept DOI 10.5281/zenodo.20827436), building on the v3.0.0 inventory-target dataset (DOI 10.5281/zenodo.20763197). Large rasters and models are not committed here; they live on Cardinal and Zenodo.
 
 ## Headline results
 

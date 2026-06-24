@@ -118,7 +118,7 @@ The author declares no competing interests.
 
 ## Data and code availability
 
-Trained models, the composite surfaces, and the analysis code are deposited at Zenodo (CSPI v4.0.0), building on the v3.0.0 inventory-target dataset (DOI 10.5281/zenodo.20763197). Source remote sensing products are public: MODIS MOD17 (LP DAAC), GEDI L4B and NASA-CMS (ORNL DAAC), and Sentinel-2 (Copernicus, via Google Earth Engine). Environmental predictors are ClimateNA, SoilGrids 2.0, and the Global Forest Change product.
+Trained models, the composite surfaces (1 km and 30 m CONUS), the small-area-refined surface, the temporal stability layer, and the analysis code are deposited at Zenodo (CSPI v4.0.0, DOI 10.5281/zenodo.20827437; concept DOI 10.5281/zenodo.20827436), building on the v3.0.0 inventory-target dataset (DOI 10.5281/zenodo.20763197). Source remote sensing products are public: MODIS MOD17 (LP DAAC), GEDI L4B and NASA-CMS (ORNL DAAC), and Sentinel-2 (Copernicus, via Google Earth Engine). Environmental predictors are ClimateNA, SoilGrids 2.0, and the Global Forest Change product.
 
 ## References
 
