@@ -24,9 +24,23 @@ The BC PSP data turned out to be the VRI ground-sample database (3,220 cluster p
 
 Two readings, both honest. First, the near-zero correlation with measured site index confirms the height-versus-flux divergence in a second jurisdiction with independent ground data: the RS-CSPI is orthogonal to height-based site index in BC just as in CONUS. Second, and more cautionary, the weak correlation with standing basal area and volume (0.15 to 0.16) shows that a CONUS-trained surface does not transfer well to BC. The likely cause is extrapolation: BC's coastal temperate rainforest and boreal interior climates and species lie well outside the CONUS training envelope, and the climate-only model has no BC ground data to anchor it. The transferability lesson is clear: the RS-as-response method is portable, but the surface must be trained within each jurisdiction; a CONUS surface should not be applied to BC off the shelf.
 
-## To do the benchmark properly
+## BC-native model: trained inside BC, validated on held-out plots (the null)
 
-Train the RS-CSPI inside BC using the VRI ground plots as the response frame and BC predictors (ClimateNA covers BC; assemble BC terrain, soil, canopy), then validate against held-out VRI clusters. The VRI database is now extracted to `bc_vri/` and on Cardinal, so this is a clean next study.
+The obvious next move was to stop transferring CONUS models and train inside BC. At the 2,485 VRI clusters I extracted ClimateNA (32 normals), MODIS NPP, and GEDI AGBD, then ran three tests. The result is a clean null, and it is the most informative outcome of the whole BC arc.
+
+(A) Environment to VRI productivity, BC-trained, held-out spatial CV: site index R2 = -0.01, basal area 0.03, volume 0.03. To rule out a spatial-extrapolation artifact I re-ran with random (non-spatial) 5-fold CV and with in-sample OOB; both are also negative (site index random-CV -0.07, OOB -0.05; basal area -0.03, -0.02). So this is a true null, not a cross-block transfer failure: 1 km climate does not predict BC plot-level measured productivity at all, even fitting and scoring on the same plots.
+
+(B) RS targets observed at BC plots versus VRI ground (Pearson): MODIS NPP vs site index -0.01, vs basal area 0.12, vs volume 0.12; GEDI AGBD vs all three weakly negative (-0.08 to -0.09). The flux target weakly tracks standing volume and basal area; nothing tracks site index.
+
+(C) BC-native RS-CSPI (env to RS targets, trained and held out in BC), versus VRI ground: site index -0.01, basal area 0.01, volume 0.01. Building the composite inside BC does not help, because its ingredients (A and B) carry almost no plot-level signal.
+
+The honest reading has two parts. First, this is a genuine vindication of the microsite premise, now shown against fully independent ground data: BC plot-level site index is dominated by species identity and stand-level factors that 1 km climate cannot resolve, so coarse environment predicts essentially none of it. Second, it is a real caution for the manuscript. The CONUS result that environment predicts FIA site index at R2 about 0.60 used the modelled, condition-level SICOND, which carries spatial structure; the BC test uses raw per-tree, species-specific site index averaged per cluster, which does not. The contrast suggests the CONUS 0.60 reflects in part the smoothed nature of SICOND rather than true plot-level predictability, and that should be stated plainly.
+
+Net: the RS-CSPI is a regional flux and biomass productivity descriptor at 1 km, not a plot-level ground-productivity predictor, and a second jurisdiction with independent ground data confirms it. Results in `bc/BCN_A_env_to_vri.csv`, `bc/BCN_B_rstargets_vs_vri.csv`, `bc/BCN_C_bccspi_vs_vri.csv`.
+
+## Where a real BC product would have to come from
+
+Plot-level BC productivity needs predictors at the scale the variance lives: 30 m terrain (slope, aspect, curvature, topographic wetness from a BC DEM), soil, and canopy or spectral covariates, with species carried explicitly rather than averaged away. ClimateNA alone is the wrong grain for this target. The VRI database is extracted to `bc_vri/` and on Cardinal for that work.
 
 ## The PSPL raster (separate, still blocked on data)
 
