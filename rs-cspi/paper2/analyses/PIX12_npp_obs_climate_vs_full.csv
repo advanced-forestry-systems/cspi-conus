@@ -1,0 +1,3 @@
+model,n_predictors,oob_r2,oob_rmse,delta_r2
+Climate-only baseline,6,0.896871047669181,574.516396854085,0
+v3 env stack (+ parent material),12,0.918966979742501,509.264189245032,0.0220959320733194

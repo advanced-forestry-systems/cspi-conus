@@ -1,0 +1,3 @@
+target,units,n_train,model,n_predictors,oob_r2,oob_rmse,delta_r2
+agbd_obs,Mg/ha,47969,Climate-only baseline,6,0.706970953669036,33.6337400894493,0
+agbd_obs,Mg/ha,47969,v3 env stack (+ parent material),12,0.742544647270384,31.526139341752,0.0355736936013473
