@@ -38,9 +38,25 @@ The honest reading has two parts. First, this is a genuine vindication of the mi
 
 Net: the RS-CSPI is a regional flux and biomass productivity descriptor at 1 km, not a plot-level ground-productivity predictor, and a second jurisdiction with independent ground data confirms it. Results in `bc/BCN_A_env_to_vri.csv`, `bc/BCN_B_rstargets_vs_vri.csv`, `bc/BCN_C_bccspi_vs_vri.csv`.
 
+## Is the null about grain or about target? (terrain test settles it)
+
+The natural hypothesis was grain: 1 km climate is too coarse, so add 30 m terrain where microsite variance lives. I sampled SRTM-derived terrain (elevation, slope, northness, eastness, topographic position index, roughness) at all 2,485 plots and retrained. It settles the question, and not in favor of grain.
+
+| response | predictors | blocked CV | random CV | OOB |
+|---|---|---|---|---|
+| site index | terrain | -0.04 | -0.08 | -0.05 |
+| site index | climate | -0.01 | -0.07 | -0.05 |
+| site index | climate + terrain | -0.01 | -0.07 | -0.05 |
+| basal area | climate + terrain | 0.03 | -0.04 | -0.02 |
+| volume | climate + terrain | 0.03 | -0.03 | -0.01 |
+
+Adding 30 m terrain recovers nothing. Site index stays negative under every predictor set and every validation scheme; basal area and volume stay at noise level. The BC null is therefore target-driven, not grain-driven: plot-level BC site index is dominated by species identity and stand state (which species occupies the plot, its age and density, management history), and no environmental predictor stack resolves that at any resolution we tested.
+
+This sharpens the whole BC arc and the paper. It is not that fine terrain predicts ground productivity and coarse climate does not; it is that plot-level, species-specific ground site index is largely not an environmental quantity at all. That is exactly why the RS-CSPI, an environmental and flux productivity axis, is orthogonal to it. The microsite claim in the manuscript should stay scoped to the spatial structure of the predicted surface (which terrain genuinely drives) and must not be read as a claim that terrain predicts measured ground site index, because in BC it does not.
+
 ## Where a real BC product would have to come from
 
-Plot-level BC productivity needs predictors at the scale the variance lives: 30 m terrain (slope, aspect, curvature, topographic wetness from a BC DEM), soil, and canopy or spectral covariates, with species carried explicitly rather than averaged away. ClimateNA alone is the wrong grain for this target. The VRI database is extracted to `bc_vri/` and on Cardinal for that work.
+Because the limiting factor is the target, a usable BC ground-productivity model would have to carry species explicitly (predict site index within species rather than averaging species per cluster) and add stand-state covariates (age, density, canopy or spectral structure), not just finer environment. The VRI database is extracted to `bc_vri/` and on Cardinal for that work, but it is a different modeling problem from the inventory-free RS-CSPI and out of scope for this paper.
 
 ## The PSPL raster (separate, still blocked on data)
 
