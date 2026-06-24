@@ -51,7 +51,7 @@ The spatial smooth alone equals the combined model; the RS layer adds essentiall
 
 ## H3 strengthened. Bootstrap CI on the independent validation.
 
-The AmeriFlux correlation is r = 0.66 with a bootstrap 95 percent CI of [0.35, 0.85] (n = 29). The lower bound excludes zero, so the independent validation is a real positive signal, though the interval is wide given the small tower sample.
+The AmeriFlux correlation is r = 0.66 with a bootstrap 95 percent CI of [0.35, 0.85] (n = 29). The lower bound excludes zero, so the independent validation is a real positive signal, though the interval is wide given the small tower sample. Expanding to FLUXNET2015 is blocked on autopilot: no FLUXNET or AmeriFlux BASE data is on Cardinal and the AmeriFlux portal API is unreachable without registration and a data-use agreement. The validation script (`rs_ameriflux_val.r`) accepts any site table with columns lat, lon, and published GPP, so dropping a downloaded FLUXNET2015 forest-site file at `v3.1_analyses/` re-runs the expanded validation immediately.
 
 ## M2 (resolved, sobering). The index does not strongly predict FIA productivity, so it is not a drop-in G&Y driver.
 

@@ -46,4 +46,4 @@ A deposit package is staged on Cardinal at `/users/PUOM0008/crsfaaron/zenodo_sta
 
 ## Policy (unchanged)
 
-Cardinal deletions prohibited from autopilot (rm as text only). Earthdata token in `~/.netrc` password field, pass as Bearer header, never echo. Zenodo token `~/.zenodo_token` mode 600. Funding CRSF only. Style: R first, no decorative hyphens. The FEM manuscript remains untouched at v0.10q pending coauthor review.
+Cardinal deletions prohibited from autopilot (rm as text only). Earthdata token in `~/.netrc` password field, pass as Bearer header, never echo. Zenodo token `~/.zenodo_token` mode 600. Funding CRSF only. Style: R first, no decorative hyphens. The FEM manuscript remains untouched at v0.10q. This RS-CSPI paper is single-author.
