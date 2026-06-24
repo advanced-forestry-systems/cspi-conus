@@ -58,9 +58,9 @@ A spatial generalized additive model predicts an inventory growth index from the
 
 ## 3. Results
 
-### 3.1 Wall-to-wall sampling beats the inventory plot frame
+### 3.1 The wall-to-wall design buys coverage and a structural-target gain
 
-On the gridded design every target predicts better than at plot coordinates: net primary productivity 0.953 vs 0.919, aboveground biomass density 0.873 vs 0.743, biomass 0.928 vs 0.574, change 0.790 vs 0.512. The structural targets gain most. The plot frame was adding noise, not signal.
+Out-of-bag R-squared is higher on the dense grid than at the plots, but most of that gap is spatial autocorrelation, which is far stronger on a contiguous grid and which out-of-bag error does not remove. Under a like-for-like spatially blocked cross-validation the picture is honest: for the flux target the two sampling frames are identical (net primary productivity blocked R-squared 0.86 wall to wall, 0.86 at the plot frame), while for the structural target the wall-to-wall design is genuinely better (aboveground biomass density 0.748 vs 0.605). The advantage of the wall-to-wall design is therefore complete spatial coverage at every forested cell, plus a real predictability gain for structural targets, rather than a uniform increase in skill. All headline numbers below are spatially blocked, not out-of-bag.
 
 ### 3.2 Predictor resolution and the augmented stack
 
@@ -82,13 +82,17 @@ The index resolves productivity variation that a plot or kilometer measure canno
 
 The composite is not a restatement of site index. Overall correlation is weak and negative (around -0.39), positive within every region: a Simpson's paradox. The cause is confirmed at the plot level, where site index correlates -0.38 with net primary productivity and -0.42 with gross primary productivity across 61,655 plots. Site index tracks height growth, highest where conifers grow tallest; flux and biomass peak in the warm wet Southeast and the Pacific Northwest. The tallest forests are not the most productive by flux or biomass, so site index, by measuring height alone, misses the integrated productivity the composite captures.
 
-### 3.7 Inventory plots refine the surface through small area estimation
+### 3.7 Independent validation against flux towers
 
-Where plots exist they sharpen the independent surface. Adding a spatial small area estimation component to the remote sensing signal raises blocked-cross-validation prediction of an inventory growth index from 0.71 to 0.94, and of biomass asymptote from 0.15 to 0.75. Inventory data are not required to build the surface, but they localize it substantially where available.
+At 30 AmeriFlux forest towers with published productivity, the composite correlates with independent ground flux at Pearson r = 0.66, the first validation against a measure other than the remote sensing targets themselves. The structural surfaces validate similarly (CMS biomass 0.63, GEDI aboveground biomass density 0.60), while the MODIS net primary productivity surface validates worst (0.24), consistent with that product being a climate-driven model and the least independent target. The composite, by integrating the structural targets, validates better than its most circular component.
 
-### 3.8 Thirty-meter downscaling
+### 3.8 Inventory plots provide coverage-complementary local estimates
 
-The composite downscales to 30 m by applying the models over the fine terrain, soil, and canopy stack, resolving ridge and valley structure the kilometer surface blurs.
+Where plots are dense, a spatial small area model predicts an inventory growth index at blocked R-squared 0.95 and biomass asymptote at 0.80. A decomposition shows this is spatial interpolation of the inventory: the spatial smooth alone reaches 0.95 and 0.80, and adding the remote sensing signal does not improve on it. The honest reading is that inventory plots, where dense, are best localized by interpolating the inventory itself, and the remote sensing surface contributes coverage where plots are sparse rather than improving the interpolation where they are dense. The two are complementary in coverage.
+
+### 3.9 Thirty-meter downscaling and the resolution sweet spot
+
+The composite downscales to 30 m by applying the models over the fine terrain, soil, and canopy stack, resolving ridge and valley structure the kilometer surface blurs. A 10 m pilot in dissected terrain adds only 1.3 percent more variance over the 30 m surface, against the roughly 32 percent the 1 km to 30 m step recovers, so 30 m is the resolution sweet spot for these predictors; finer grids add predictor texture, not productivity signal.
 
 ## 4. Discussion
 
@@ -98,7 +102,7 @@ The divergence from site index clarifies what site index is and is not. It is a 
 
 Small area estimation reconciles independence with local accuracy. The base surface needs no plots, but where they exist they fold back in to localize it, and the gain is large, lifting prediction of a ground growth index from 0.71 to 0.94. This points to an operational design: a remote sensing base layer everywhere, sharpened by inventory wherever inventory is dense.
 
-Limitations include predictor-limited resolution, the smoothing inherent in environmental prediction, and dense-grid validation optimism, which the blocked cross-validation bounds. Adding gross primary productivity and an optical greenness target would broaden the flux dimension.
+Limitations are stated plainly. The MODIS net primary productivity target is itself a climate-driven model, so its high predictability is partly circular; the structural targets (lidar biomass density, inventory-lidar biomass) are the more independent evidence, and the independent AmeriFlux validation, where the composite reaches r = 0.66 and the MODIS surface only 0.24, confirms which targets carry real productivity signal. Dense-grid out-of-bag error is optimistic, so all headline numbers are spatially blocked. The composite is a relative index without physical units and cannot yet directly drive a growth and yield model; calibrating it to remeasured inventory increment is the path to absolute units. The 30 m surface resolves predictor-driven microsite structure that is not independently validated against fine-scale productivity measurements. Adding gross primary productivity and an optical greenness target would broaden the flux dimension.
 
 ## 5. Conclusions
 
