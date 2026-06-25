@@ -1,0 +1,41 @@
+# Files to upload to Zenodo for CSPI v4.0.0 (final). One absolute path per line, Cardinal.
+# Staging root: /users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/
+# The 30 m CONUS COG (18 GB) is referenced in place on scratch.
+
+# --- documentation ---
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/README.md
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/CITATION.cff
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/data_dictionary.csv
+
+# --- primary product: RS-CSPI composite (1 km) ---
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/RS_CSPI_1km_equalweight.tif
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/RS_CSPI_1km_pc1.tif
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/WTW_consensus_agreement_sd_1km_aug.tif
+
+# --- SAE-refined (FIA-localized) productivity surface (1 km) ---
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/SAE_refined_asym_1km.tif
+
+# --- 30 m CONUS consensus (high resolution; 18 GB, referenced in place) ---
+/fs/scratch/PUOM0008/crsfaaron/rs_target/wtw30m/WTW_consensus_z_30m_CONUS.tif
+
+# --- companion + pilot ---
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/WTW_consensus_productivity_idx_4p6km.tif
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/WTW_consensus_agreement_sd_4p6km.tif
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/WTW_consensus_z_30m_smokies.tif
+
+# --- trained models + predictor list ---
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/m_npp_aug.rds
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/m_agbd_aug.rds
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/m_cms16_aug.rds
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/m_chg_aug.rds
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/predictor_names.rds
+
+# --- performance and analysis tables ---
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/WTW1kmAUG_oob_summary.csv
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/WTW1kmAUG_blocked_cv.csv
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/PIX40_perL1_residual_all_targets.csv
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/PIX50_crosstarget_pearson.csv
+
+# --- analysis scripts ---
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/rs_wtw_1km_aug.r
+/users/PUOM0008/crsfaaron/zenodo_staging/v4_surfaces/rs_wtw_30m_tile.r

@@ -1,0 +1,5 @@
+target,units,n_train,oob_r2,rmse
+npp,g C m-2 yr-1,250000,0.9461,36.364
+agbd,Mg ha-1,250000,0.6777,36.542
+cms16,biomass,250000,0.7378,269.593
+chg,biomass change,250000,0.4509,190.323
