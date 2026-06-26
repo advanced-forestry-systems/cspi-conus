@@ -1,0 +1,5 @@
+comparison,spearman
+cMAI_p3 vs prod_class,0.52249910328201
+cMAI_p2 vs prod_class,0.415156341749658
+bgi_v vs prod_class,0.542898180137978
+asym_v vs prod_class,-0.385852859979807
