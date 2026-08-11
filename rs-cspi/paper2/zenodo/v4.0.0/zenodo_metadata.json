@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "title": "FIA-independent wall-to-wall multi-target forest productivity consensus surface for the conterminous United States (CSPI v4.0.0)",
+    "upload_type": "dataset",
+    "publication_date": "2026-06-23",
+    "creators": [
+      {
+        "name": "Weiskittel, Aaron R.",
+        "affiliation": "University of Maine, Center for Research on Sustainable Forests",
+        "orcid": "0000-0003-2534-4478"
+      }
+    ],
+    "description": "<p>A forest productivity surface for the conterminous United States derived entirely from remote sensing and environmental predictors, with no ground inventory data in the modeling chain. Every forested cell on an environmental predictor grid is paired with co-registered wall-to-wall satellite productivity targets; a random forest is fit from the predictors to each target and predicted across all forest cells; the predicted surfaces are z-standardised and averaged into an equal-weight consensus index (0 to 100), with a per-cell agreement layer.</p><p><strong>Targets:</strong> MODIS MOD17 net primary productivity, GEDI L4B v2.1 aboveground biomass density, NASA-CMS CONUS aboveground biomass 2016, and NASA-CMS biomass change 2005 to 2016.</p><p><strong>Primary product</strong> is the 1 km augmented consensus, predicted from 43 predictors: ClimateNA 1991-2020 normals plus aligned terrain, soil, and canopy layers. Out-of-bag R-squared: NPP 0.948, AGB 0.894, AGBD 0.791, change 0.602. Adding terrain and soil to the climate stack recovers the structural fit that climate alone cannot explain. A coarser 4.6 km companion (water-balance stack) is included for reference. A 30 m operational downscaling over the same models is in production and will be added as a new version.</p><p><strong>Layers:</strong> 1 km augmented consensus productivity index and agreement layer; 4.6 km companion consensus and agreement; the four trained random forest models; supporting validation tables and scripts.</p><p>Supersedes the FIA-target CSPI surfaces (v3.0.0, DOI 10.5281/zenodo.20763197) by removing the dependence on FIA inventory plots. See README.md for methods, file manifest, and caveats.</p>",
+    "keywords": [
+      "forest productivity",
+      "net primary productivity",
+      "aboveground biomass",
+      "GEDI",
+      "MODIS MOD17",
+      "NASA-CMS",
+      "remote sensing",
+      "random forest",
+      "wall to wall",
+      "FIA independent",
+      "consensus surface",
+      "conterminous United States",
+      "GeoTIFF"
+    ],
+    "license": "cc-by-4.0",
+    "language": "eng",
+    "version": "4.0.0",
+    "access_right": "open",
+    "communities": [
+      {"identifier": "forestry"}
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "10.5281/zenodo.20763197",
+        "relation": "isNewVersionOf",
+        "scheme": "doi"
+      }
+    ],
+    "notes": "Computation performed on the Ohio Supercomputer Center Cardinal cluster under allocation PUOM0008. Supporting analysis for the CSPI Paper 2 manuscript (FIA-independent forest productivity surfaces). DRAFT staged for review; whether this is published as v4.0.0 of the existing CSPI concept record (10.5281/zenodo.20515034) or as a standalone record is a decision for the depositor. A related_identifier to the journal publication DOI will be added once the manuscript is accepted."
+  }
+}
