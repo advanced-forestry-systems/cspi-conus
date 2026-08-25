@@ -1,0 +1,53 @@
+# NA-wide 30 m maps of CSPI, BGI, ESI, and RD: blocker review
+
+**Date.** 19 August 2026. OODA blocker review mode, no compute run. EXTENT: North America at 30 m (canonical grid NA20, Albers NAD83 40/65, 20 m, adopted 28 July). Working record with full citations: `na-30m-blocker-review-working-record_DATA_2026-08-19.md` (same folder).
+
+**SUPERSEDING ANNOTATION, 25 August 2026.** Two claims below are now stale, corrected by the same-day OODA run, `esi30-gate-rerun_FINAL_2026-08-25.md` and `rd30-assembly-gatefix-and-diagnosis_FINAL_2026-08-25.md` (same folder). First, ESI30 is not closed. The 19 August gate test measured the wrong quantity (raw response sum-of-squares share rather than the registered explained-variance share, on a response later confirmed to be a model prediction rather than a field measurement); a corrected rerun against a genuinely measured response (top height) passes both the registered gate (50.2 percent within-block explained variance against a 20 percent bar) and the project's own BGI30-precedent admission bar (blocked R^2 = 0.489, slope = 1.128). Second, job 13728908 did not run to completion as "running" implied; it FAILED on 19 August itself, 31 minutes in, on its own F5 area gate. A rebuilt pipeline (rev 3/4) surfaced and fixed two further latent defects (a GDAL/terra ABI mismatch, a shell-quoting bug in the mosaic build) and, once it finally ran end to end, correctly caught a new, previously undetectable defect at the new A1 map-anchored gate (assembled median 0.766 against plot median 0.697, a 9.9 percent overshoot); RD30 CONUS remains PROVISIONAL, not promoted.
+
+[IMPLICIT: length budget = about 1,200 words, CRSF technical memo class, ceiling 2,000.]
+
+## The headline
+
+A North American wide 30 m product is blocked on data and method, not compute, and the project's own July and August decisions have already narrowed what "the four layers at 30 m" can legally mean. CSPI30 as a name is retired (rescope memo, 28 July): the shippable 30 m measurables are RD30, BA30, and Hdom30, with CSPI reserved as a definition in methods. BGI30 came back EQUIVOCAL against its pre-registered gate on 29 July (blocked NSE 0.159 but leave-one-province-out pooled NSE of -0.839, and the verdict flips NEGATIVE without the pre-registered winsorization) and was not admitted; the gate was not moved. An ESI downscale is ruled out as fabricated resolution (terrain plus soils add 0.004 skill over climate alone); the only live ESI30 route was a direct plot-to-embedding model, gated on a within-block variance share above 20 percent. That gate was run this session (job 13728889, n = 21,776 plots, 594 blocks): ESI FAILS it at a within-block share of 0.1119 with blocked within-NSE of 0.0253, so ESI30 is closed as fabricated resolution. The same run gives the strongest evidence yet for the measurables route: topht carries 73.3 percent of its variance within blocks and the embeddings recover it at blocked within-NSE 0.296 (raw blocked NSE 0.489), and BAI carries 84.8 percent within blocks. So of the four requested layers, only RD has a live 30 m path today, that path is CONUS-first, and Hdom30 is the best supported next measurable.
+
+## What changed since the 12 August ceiling decision
+
+New fact this session: `route_a_sae_calibrate.R` completed on 14 August (job 13566048, 4 h 26 m under the raised 5 h walltime; the timed-out 13434497 needs no resubmission). All 24,544 calibrated tiles exist in `alphaearth/conus/rd30m_cal_tiles` (6.7 GB). The per-tile calibration that the 12 August memo listed as unstarted CONUS-wide compute is done. What remains for RD30 CONUS is assembly, not calibration: mosaic the calibrated tiles into the two decided products (per-pixel calibrated layer retaining RD > 1, plus a quantile-mapped display layer, per the 12 August two-product decision), with the corrected units chain (plot medians 0.6970, not 0.2821) and metadata carrying the method.
+
+## Blockers, in binding order
+
+**B1. AlphaEarth embedding coverage (data, hard).** BC, YT, NT, and NU have no embeddings; any 30 m Canadian product is a nine-province product. The re-export is scoped, but note the cost figures belong to different schemes: the 115 tasks / 807 granules / 477 GB figure is the masked 20 m NA20 estimate, while a legacy-compatible unmasked 30 m export dry-runs at about 1.33 TB with trimmed northern boxes (launcher README, this session). Earth Engine exports cannot be initiated by Claude's tools; the turnkey launcher built this session (aef_reexport_launcher/) is for Aaron to run, and nothing else unblocks BC.
+
+**B2. Ground alignment, not extraction (data, binding on model quality).** The remeasured-by-embedded intersection is 13,320 plots in three provinces (QC 90.5 percent, NL, NB), and 12,920 embedded plots (all of AB, ON, PE) have no rows in the aligned table. Sample size for any Canadian 30 m fit is set by alignment work that has not been done. BC is additionally excluded on coordinate precision regardless of tiles.
+
+**B3. The RD denominator has no Canadian analogue (method, hard for RD30 in Canada).** 64.8 percent of Canadian sites fall through the ecoregion lookup to a single national CONUS forest-type-group median, 100 percent in taiga and tundra. No Canadian forest-type by ecoregion raster exists at any resolution, so an RD surface cannot be converted to an SDI surface over Canada. RD transport also failed leave-one-country-out robustly (CA to CONUS NSE -2.865). The remedy the record itself states: plots and a jointly estimated maximum-density reference, not aggregation.
+
+**B4. Grid consolidation (infrastructure, self-inflicted but real).** Three incompatible 30 m grids are in play (EPSG:5070 metric, two different geographic pitches), the canonical NA20 grid is adopted but nothing is built on it, and everything on 5070 or 102008 is declared stale relative to it, including the current CONUS RD 30 m rasters and the 12 km hex product. Also the `countries50` land mask is adequate at 2 km only; a 30 m product needs a proper boundary mask, and the latitude proxy is banned.
+
+**B5. Composite prerequisites (method, blocks any future NA CSPI).** The honest four-component NA intersection is 2,220 cells; the NA composite ceased to exist as a single deliverable on 4 August. Canadian Asym is quarantined (it reproduces standing AGB at r = 1.000), Canadian BGI is barred from any composite, MODIS NPP is excluded as a provenance artifact, only 35 covariates are genuinely continental, there is no continental soils raster, and REFPOP-NA-v1 is specified but not frozen. None of this is 30 m specific; all of it precedes any NA composite at any resolution.
+
+**B5b. Licensing and geography carried forward from the working record (restored after red team Pass 5).** New Brunswick CLI products inherit the JDI proprietary constraint (aggregated summaries only, per-parcel outputs internal); true NFI coordinates stay chmod 600 on Cardinal with bounding-box-only staging to Earth Engine; and the Alaska window is declared but unoccupied, with the 2 km composite stopping at 141 degrees W, so "North American" currently means CONUS plus nine Canadian provinces even at coarse resolution.
+
+**B6. Record hygiene (F9, cheap but mandatory before anything ships).** The verification pass registers six blockers and the corpus "not clean": the CSPI three versus five component contradiction is unreconciled, Canadian site counts vary across four values, the 2.471 versus 2.534817 conversion factor scope question is open, and the Zenodo correction for the defective RD CSV (identical in all four published versions, 336 downloads) is drafted but not posted. Separately, no F1 jurisdiction check is on record for the NA map chain outside the 11 August CONUS-only run, despite this project family having produced the NLCD/New Brunswick failure that created the check.
+
+## Firewall table (this review)
+
+| Mode | Applies | Result |
+|---|---|---|
+| F1 jurisdiction | yes | OPEN: no recorded F1 sweep of the NA chain; near-misses caught ad hoc (NA_ESI_2km is Canada-only despite its name) |
+| F5 magnitude | yes | PASS on probed artifacts (24,544 tiles matches tile census; RD median 0.6970 matches ground truth) |
+| F9 inherited numbers | yes | FAIL-risk: stale numbers still circulating; see B6 and the working record's re-derivation table |
+| F3/F4 gates | design stage | Gates for the RD30 mosaic must span value, magnitude, location, cross-layer; thresholds anchored externally (FIA plot network coverage per F6) |
+
+## Unknowns ledger (open, with cost)
+
+[UNKNOWN: share of the -4.03 SI border step that is model offset versus real gradient; cost: an NA ESI product would bake an artifact into the seam. Closes with a matched FIA/MAG plot comparison.]
+[UNKNOWN: whether a jointly estimated SDImax restores RD transport; cost: Canadian RD30 stays impossible. Closes with a pooled maximum-density refit.]
+[RESOLVED 19 Aug: ESI30 within-block variance share = 0.1119, below the 20 percent gate; ESI30 is closed. Ground measurables pass the same gate (topht 0.733, BAI 0.848), supporting Hdom30.]
+[UNVERIFIED: Canadian tile-array core-hour estimate (8,000 to 12,000), flagged stale in the record itself; re-derive before scheduling.]
+
+## Status after the same-day execution pass (updated 19 August, post red team)
+
+All four runnable items were executed this session. RD30 CONUS assembly is running as job 13728908 (rev 2 after the red team caught a miscalibrated LUT gate that killed rev 1, job 13728887); products land as conus_RD_30m_calfix_2022.tif and conus_RD_30m_qmap_2022.tif on the native EPSG:5070 grid, with NA20 reprojection deferred as its own pass (re-costed at about 25 to 38 core-hours). The ESI30 gate test ran and closed ESI30 (headline section above). The AEF launcher is built at aef_reexport_launcher/ awaiting Aaron's Earth Engine run, with a NU pilot (about 50 GB) recommended before committing BC/YT/NT. Record hygiene ran: the component-count reconciliation memo and the Zenodo correction package (DRAFT, not published; the description's distribution numbers must be re-measured against the staged file before publishing, per both the package's own gate checklist and the red team) are in this folder, and the F1 sweep (job 13728891) wrote na_chain_f1_sweep_20260819.csv on Cardinal: 14 name-versus-extent flags, all of the grid-extent-versus-data-extent class at bbox level, none yet the NLCD-class interior-nodata defect, which the sweep's stated limitation says still needs a point-lattice probe.
+
+Canada-side RD30 stays blocked behind B1 + B2 + B3 in combination; no compute purchase changes that. Full adversarial findings: redteam-review_FINAL_2026-08-19.md.
