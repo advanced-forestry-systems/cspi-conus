@@ -88,7 +88,7 @@ Paste verbatim into the next session.
 > 1. Help me send the coauthor review email to Anthony D'Amato and Jereme Frank with `CSPI_v0_10q_FEM_combined.docx` attached.
 > 2. If I want any optional v0.10r work (GEDI L4B via correct CMR query, NASA-CMS biomass change target, F19 ecoregion choropleth, Sentinel-2 NDVI target), execute on autopilot.
 >
-> Security policy: file deletions on Cardinal are prohibited from autopilot (provide rm commands as text only). Zenodo token at `~/.zenodo_token` on Cardinal mode 600 — never echo to stdout. GitHub PAT at `_context/.gh-holoros/token` (now scoped to advanced-forestry-systems). Never place tokens in URL query params (use Authorization Bearer header). IAM permission grants are user-only.
+> Security policy: file deletions on Cardinal are prohibited from autopilot (provide rm commands as text only). Zenodo token in the Cardinal token file (mode 600) — never echo to stdout. GitHub PAT in the private token store (now scoped to advanced-forestry-systems). Never place tokens in URL query params (use Authorization Bearer header). IAM permission grants are user-only.
 >
 > Funding: University of Maine Center for Research on Sustainable Forests (CRSF) only. Aaron does not have a MAFES appointment so do not reattribute to NIFA McIntire-Stennis.
 >

@@ -70,7 +70,7 @@ Number fixes throughout: 40,933 → 66,433 (cross-prediction set) and 114,587 (F
 
 ## Resumption next session
 
-1. SSH to Cardinal: copy key from `/sessions/.*/mnt/aweiskittel/Documents/Claude/.ssh-cardinal/id_ed25519_cardinal` to /tmp, build a non-default ssh config (workspace `/etc/ssh/ssh_config.d/20-systemd-ssh-proxy.conf` has wrong perms so default ssh fails).
+1. SSH to Cardinal: copy the Cardinal SSH key (path kept in private-reference.md) to /tmp, build a non-default ssh config (workspace `/etc/ssh/ssh_config.d/20-systemd-ssh-proxy.conf` has wrong perms so default ssh fails).
 2. Check queue: `squeue -u crsfaaron`.
 3. If 11555064 done, pull `/users/PUOM0008/crsfaaron/raster_layers/cspi_rs/F7_cspi_v21_3c_map.png` to v5/figures_v10/, update manuscript, re-export docx, commit.
 4. If v7_qrf done, stage v2.0.1 deposit and request Zenodo new-version upload.

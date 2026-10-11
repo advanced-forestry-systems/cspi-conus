@@ -91,6 +91,7 @@ for (eco in names(ecoregion_map)) {
     w_esi  = round(w_norm["z_esi"],  3),
     w_bgi  = round(w_norm["z_bgi"],  3),
     w_asym = round(w_norm["z_asym"], 3),
+    any_negative = any(w_norm < 0),
     var_pc1 = round(pc$sdev[1]^2 / sum(pc$sdev^2), 3),
     n      = nrow(d))
   cat(sprintf("%-20s n=%6d   w(ESI,BGI,Asym) = (%5.2f, %5.2f, %5.2f)  PC1 var = %.2f\n",

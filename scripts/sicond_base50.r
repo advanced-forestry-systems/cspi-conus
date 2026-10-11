@@ -56,15 +56,22 @@ print(cor50)
 fwrite(cor50, file.path(OUT, "D2_sicond_at_sibase50.csv"))
 
 ## ===== Stratum 3: Chapman-Richards anamorphic projection =====
-## SI50 ≈ SI_base * (1 - exp(-k * 50)) / (1 - exp(-k * base))
-## k = 0.025 is a working species-average from Carmean et al. (1989).
-## For each plot with SIBASE != 50, project SICOND to base 50.
+## SI50 = SI_base * ((1 - exp(-k * 50)) / (1 - exp(-k * base)))^b3
+## Earlier versions omitted the shape exponent (implicitly b3 = 1). b3 is now
+## explicit; the default b3 = 1 matches the published D3/D4 projection (apart
+## from the SICOND <= 0 exclusion added below), and the
+## D5 grid below reports sensitivity to k and b3. k = 0.025 is a working
+## species-average rate; the earlier attribution to Carmean et al. (1989) is
+## unverified and has been removed until the source is checked.
+## Plots with SICOND <= 0 are excluded here, consistent with Strata 1 and 2.
 cat("\n=== Anamorphic projection to base 50 ===\n")
-k <- 0.025
-plt[, SICOND_b50 := ifelse(
-  is.na(SIBASE) | SIBASE <= 0, NA_real_,
-  SICOND_m * (1 - exp(-k * 50)) / (1 - exp(-k * SIBASE))
-)]
+k  <- 0.025
+b3 <- 1
+project_b50 <- function(si, base, k, b3) {
+  ifelse(is.na(base) | base <= 0 | is.na(si) | si <= 0, NA_real_,
+         si * ((1 - exp(-k * 50)) / (1 - exp(-k * base)))^b3)
+}
+plt[, SICOND_b50 := project_b50(SICOND_m, SIBASE, k, b3)]
 
 ## Compare distributions: SICOND raw vs SICOND projected to base 50
 cat("Raw SICOND_m summary:\n"); print(summary(plt$SICOND_m))
@@ -108,5 +115,20 @@ side <- data.table(
 )
 print(side)
 fwrite(side, file.path(OUT, "D4_sicond_side_by_side.csv"))
+
+## ===== D5: sensitivity of the projected correlations to k and b3 =====
+cat("\n=== D5: projection sensitivity (k x b3) ===\n")
+sens <- rbindlist(lapply(c(0.015, 0.025, 0.035), function(kk)
+  rbindlist(lapply(c(1, 1.3, 1.6), function(bb) {
+    x <- project_b50(plt$SICOND_m, plt$SIBASE, kk, bb)
+    data.table(k = kk, b3 = bb,
+               r_ESI  = round(cor(x, plt$esi,    use = "p"), 3),
+               r_BGI  = round(cor(x, plt$bgi_v,  use = "p"), 3),
+               r_Asym = round(cor(x, plt$asym_v, use = "p"), 3),
+               r_NPP  = round(cor(x, plt$npp_v,  use = "p"), 3),
+               n = sum(!is.na(x)))
+  }))))
+print(sens)
+fwrite(sens, file.path(OUT, "D5_projection_sensitivity.csv"))
 
 cat("\n=== Done. Outputs in", OUT, "===\n")

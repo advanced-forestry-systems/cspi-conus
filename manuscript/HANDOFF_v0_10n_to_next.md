@@ -12,7 +12,7 @@ The reforestation potential is quantified: 40.2 Mha non-forest with Asym v9 abov
 The cspi-conus repo was transferred from `holoros/cspi-conus` to `advanced-forestry-systems/cspi-conus` during this autopilot run. The `holoros` PAT no longer has push permission to the new org, so this session's commits (v0.10m gap, v0.10n wind closure, F14 figure, NEWS_v3.0.1) live locally only at `~/Documents/Claude/CRSF-Cowork/repos/cspi-conus/` and have not been pushed.
 
 To restore push from this session:
-1. Either go to `https://github.com/advanced-forestry-systems` → People → invite `holoros` as a member with write access, **or** create a new PAT under the advanced-forestry-systems org and save it to `~/Documents/Claude/CRSF-Cowork/_context/.gh-holoros/token` (replacing the holoros PAT).
+1. Either go to `https://github.com/advanced-forestry-systems` → People → invite `holoros` as a member with write access, **or** create a new PAT under the advanced-forestry-systems org and save it to the private token store (path kept in private-reference.md) (replacing the holoros PAT).
 2. Then `cd ~/Documents/Claude/CRSF-Cowork/repos/cspi-conus && git push` will succeed and the v0.10m, v0.10n, F14, and NEWS commits will land remote.
 
 I cannot do this for you because it requires modifying repository access controls, which my safety rules reserve for the user.
@@ -90,7 +90,7 @@ Paste verbatim into the next session.
 
 > CSPI v3.0.0 is published at Zenodo DOI 10.5281/zenodo.20763197 (5 files, 20 GB). Manuscript is at v0.10n locally with §3.19 AmeriFlux (r=0.17), §3.20 reforestation quantified (40.2 Mha, 4.74 Pg C ceiling), §3.21 mean wind null, §3.22 hurricane null. The wind story is closed. Full state at `/home/aweiskittel/Documents/Claude/CRSF-Cowork/active-projects/bgi-cspi-conus/v5/HANDOFF_v0_10n_to_next.md`.
 >
-> CRITICAL: The cspi-conus repo was transferred to advanced-forestry-systems org during the prior session. The holoros PAT lacks push access. v0.10m, v0.10n, F14, and NEWS commits live locally at `~/Documents/Claude/CRSF-Cowork/repos/cspi-conus/` but have not pushed. Aaron must either grant holoros write access at advanced-forestry-systems org, or replace `~/Documents/Claude/CRSF-Cowork/_context/.gh-holoros/token` with a PAT scoped to advanced-forestry-systems. Then `git push` from the repo will succeed.
+> CRITICAL: The cspi-conus repo was transferred to advanced-forestry-systems org during the prior session. The holoros PAT lacks push access. v0.10m, v0.10n, F14, and NEWS commits live locally at `~/Documents/Claude/CRSF-Cowork/repos/cspi-conus/` but have not pushed. Aaron must either grant holoros write access at advanced-forestry-systems org, or replace the private token store (path kept in private-reference.md) with a PAT scoped to advanced-forestry-systems. Then `git push` from the repo will succeed.
 >
 > Pick up by:
 > 1. Confirm repo-access fix completed; push the local commits.
@@ -98,7 +98,7 @@ Paste verbatim into the next session.
 > 3. Pull REFORESTATION_BY_STATE.csv when Cardinal job 11948515 lands; build F15 state choropleth.
 > 4. If I want any of the optional next-session ideas in the handoff doc (SVRGIS tornado, NREL Wind Toolkit, F16 hurricane map, NSVB swap, ForestGEO buffered), execute on autopilot.
 >
-> Security policy: file deletions on Cardinal are prohibited from autopilot (provide rm commands as text only). Zenodo token at `~/.zenodo_token` on Cardinal mode 600 — never echo to stdout. GitHub PAT at `_context/.gh-holoros/token`. Never place tokens in URL query params (use Authorization Bearer header). IAM permission grants are user-only (this is why the repo-transfer fix is in your court, not mine).
+> Security policy: file deletions on Cardinal are prohibited from autopilot (provide rm commands as text only). Zenodo token in the Cardinal token file (mode 600) — never echo to stdout. GitHub PAT in the private token store. Never place tokens in URL query params (use Authorization Bearer header). IAM permission grants are user-only (this is why the repo-transfer fix is in your court, not mine).
 >
 > Funding: University of Maine Center for Research on Sustainable Forests (CRSF) only. Aaron does not have a MAFES appointment so do not reattribute to NIFA McIntire-Stennis.
 >

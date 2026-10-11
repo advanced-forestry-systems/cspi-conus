@@ -11,7 +11,7 @@ Three actions per the REORG plan. All ready for Aaron's go/no-go.
 ```bash
 cd /users/PUOM0008/crsfaaron/zenodo_staging/cspi-analytical-chain-v1
 python upload_to_zenodo.py \
-    --token-file ~/.zenodo_token \
+    --token-file "$ZENODO_TOKEN_FILE" \
     --metadata zenodo_metadata.json \
     --files-list files_to_upload.txt \
     --publish
@@ -46,7 +46,7 @@ Suggested command (after Action 1):
 
 ```bash
 python scripts/update_metadata.py \
-    --token-file ~/.zenodo_token \
+    --token-file "$ZENODO_TOKEN_FILE" \
     --record-id <v2.0.0 record id, look up via list_deposits> \
     --metadata <updated v2.0.0 metadata json with new related_identifiers> \
     --publish
@@ -61,7 +61,7 @@ When that lands, fire a new-version deposit:
 ```bash
 cd /users/PUOM0008/crsfaaron/zenodo_staging/cspi-v2-0-1
 python scripts/new_version.py \
-    --token-file ~/.zenodo_token \
+    --token-file "$ZENODO_TOKEN_FILE" \
     --parent-doi 10.5281/zenodo.20663652 \
     --metadata zenodo_metadata.json \
     --files-list files_to_upload.txt \
@@ -84,7 +84,7 @@ This is already staged from prior session work (task #203). Just needs the new u
 - [ ] Aaron confirms `publication_type = preprint` (alternative: `working_paper` or `report`)
 - [ ] Aaron confirms forestry community membership (most useful for downstream discovery)
 - [ ] Aaron confirms CC-BY-4.0 license (default; alternative CC-BY-NC-4.0 for commercial restriction)
-- [ ] Token at `~/.zenodo_token` on Cardinal is current (60 bytes, looks valid)
+- [ ] Token at `"$ZENODO_TOKEN_FILE"` on Cardinal is current 
 
 ## Risk and rollback
 

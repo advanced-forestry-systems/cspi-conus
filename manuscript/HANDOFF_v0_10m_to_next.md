@@ -77,7 +77,7 @@ Paste verbatim into the next session.
 > 2. Confirm the FEM submission package is ready (manuscript, supplements, figures, cover letter).
 > 3. If I want any of the optional next-session ideas in the handoff doc (HURDAT2 hurricane density, SVRGIS tornado density, NREL Wind Toolkit at 80 m hub, F14 wind decile figure, F15 reforestation choropleth, NEWS v3.0.1), execute on autopilot.
 >
-> Security policy: file deletions on Cardinal are prohibited from autopilot (provide rm commands as text only). Zenodo token at `~/.zenodo_token` on Cardinal mode 600 — never echo to stdout. GitHub PAT at `_context/.gh-holoros/token`. Never place tokens in URL query params (use Authorization Bearer header). IAM permission grants are user-only.
+> Security policy: file deletions on Cardinal are prohibited from autopilot (provide rm commands as text only). Zenodo token in the Cardinal token file (mode 600) — never echo to stdout. GitHub PAT in the private token store. Never place tokens in URL query params (use Authorization Bearer header). IAM permission grants are user-only.
 >
 > Funding: University of Maine Center for Research on Sustainable Forests (CRSF) only. Aaron does not have a MAFES appointment so do not reattribute to NIFA McIntire-Stennis.
 >

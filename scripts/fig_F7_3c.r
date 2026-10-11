@@ -1,9 +1,12 @@
 ## F7 spatial map of 3-component composite, similar to existing F7 in figures_v04
+## Uses the forest-masked surface written by mask_cspi3c.r (run first in
+## cspi3c_postsurface.slurm). An earlier version mapped the unmasked surface
+## while the subtitle described non-forest as masked.
 suppressPackageStartupMessages({
-  library(terra); library(ggplot2); library(viridis)
+  library(terra); library(ggplot2); library(viridis); library(scales)
 })
 
-INPUT <- "/users/PUOM0008/crsfaaron/raster_layers/cspi_rs/CSPI_v21_3component_30m.tif"
+INPUT <- "/users/PUOM0008/crsfaaron/raster_layers/cspi_rs/CSPI_v21_3component_30m_forest.tif"
 OUT_PNG <- "/users/PUOM0008/crsfaaron/raster_layers/cspi_rs/F7_cspi_v21_3c_map.png"
 OUT_PDF <- "/users/PUOM0008/crsfaaron/raster_layers/cspi_rs/F7_cspi_v21_3c_map.pdf"
 
@@ -22,12 +25,14 @@ cat("Aggregated dims:", dim(r_low), "res:", res(r_low), "\n")
 df <- as.data.frame(r_low, xy = TRUE, na.rm = TRUE)
 names(df)[3] <- "value"
 cat("Plot points:", nrow(df), "\n")
+n_oob <- sum(df$value < 0 | df$value > 100)
+if (n_oob > 0) cat("WARNING:", n_oob, "cells fall outside 0-100 and are squished to the scale ends\n")
 
 # Build the map
 p <- ggplot(df, aes(x = x, y = y, fill = value)) +
   geom_raster(interpolate = FALSE) +
   scale_fill_viridis_c(name = "CSPI v2 (3-comp)\n0–100", option = "viridis",
-                       limits = c(0, 100), na.value = "transparent") +
+                       limits = c(0, 100), oob = squish) +
   coord_fixed(ratio = 1.0) +
   theme_minimal(base_size = 11) +
   theme(panel.grid = element_blank(),
@@ -36,7 +41,7 @@ p <- ggplot(df, aes(x = x, y = y, fill = value)) +
         legend.position = "right",
         legend.key.height = unit(1.5, "cm")) +
   labs(title = "CSPI v2: 3-component composite (ESI + BGI + Asym) at 30 m, displayed at 1 km",
-       subtitle = "z-score equal-weight average over CONUS; gray = no data (non-forest / out of analysis extent)")
+       subtitle = "Equal-weight composite of ESI, BGI and Asym z-scores; white = non-forest (Hansen tree cover < 30%) or outside the analysis extent")
 
 ggsave(OUT_PNG, p, width = 10, height = 6, dpi = 300, bg = "white")
 ggsave(OUT_PDF, p, width = 10, height = 6, bg = "white")

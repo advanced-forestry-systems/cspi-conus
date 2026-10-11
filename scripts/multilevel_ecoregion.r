@@ -56,8 +56,8 @@ sub <- plt_xy[!is.na(L3) & !is.na(z_esi) & !is.na(z_bgi) & !is.na(z_asym)]
 
 ## ===== Step 3: per-level PCA weights =====
 calc_weights <- function(df, group_col, min_n = 50) {
-  df[, n_eco := .N, by = group_col]
-  groups <- unique(df[n_eco >= min_n][[group_col]])
+  n_per <- df[, .N, by = group_col]   # counted locally; no by-reference column added to df
+  groups <- n_per[N >= min_n][[group_col]]
   out <- list()
   for (g in groups) {
     d <- df[get(group_col) == g]
@@ -69,7 +69,8 @@ calc_weights <- function(df, group_col, min_n = 50) {
       group = g, n = nrow(d),
       w_esi = w_norm["z_esi"],
       w_bgi = w_norm["z_bgi"],
-      w_asym = w_norm["z_asym"])
+      w_asym = w_norm["z_asym"],
+      any_negative = any(w_norm < 0))
   }
   rbindlist(out)
 }
@@ -80,6 +81,7 @@ setnames(w_L1, c("group","n","w_esi","w_bgi","w_asym"),
               c("L1","n_L1","w_esi_L1","w_bgi_L1","w_asym_L1"))
 print(w_L1)
 fwrite(w_L1, file.path(OUT, "ML1_pca_weights.csv"))
+w_L1[, any_negative := NULL]  # flag kept in the CSV only
 
 cat("\n=== Per-L2 weights ===\n")
 w_L2 <- calc_weights(sub, "L2", 50)
@@ -87,6 +89,7 @@ setnames(w_L2, c("group","n","w_esi","w_bgi","w_asym"),
               c("L2","n_L2","w_esi_L2","w_bgi_L2","w_asym_L2"))
 cat("L2 weight rows:", nrow(w_L2), "\n")
 fwrite(w_L2, file.path(OUT, "ML2_pca_weights.csv"))
+w_L2[, any_negative := NULL]  # flag kept in the CSV only
 
 cat("\n=== Per-L3 weights ===\n")
 w_L3 <- calc_weights(sub, "L3", 50)
@@ -94,6 +97,7 @@ setnames(w_L3, c("group","n","w_esi","w_bgi","w_asym"),
               c("L3","n_L3","w_esi_L3","w_bgi_L3","w_asym_L3"))
 cat("L3 weight rows:", nrow(w_L3), "\n")
 fwrite(w_L3, file.path(OUT, "ML3_pca_weights.csv"))
+w_L3[, any_negative := NULL]  # flag kept in the CSV only
 
 ## ===== Step 4: join weights to plots =====
 sub <- merge(sub, w_L1, by = "L1", all.x = TRUE)

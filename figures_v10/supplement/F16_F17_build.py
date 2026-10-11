@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """F16 (NPP scatter + residual map) and F17 (variable importance side-by-side)."""
 import csv
+import os
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-OUTDIR = "/sessions/quirky-peaceful-babbage/mnt/outputs"
+# Input/output directory (PIX22_npp_predictions.csv is server-side and not in
+# the repo because it carries plot coordinates). Override with CSPI_OUTDIR.
+OUTDIR = os.environ.get("CSPI_OUTDIR", "/sessions/quirky-peaceful-babbage/mnt/outputs")
 
 # ===== F16: scatter + residual choropleth proxy (color-coded points) =====
 print("Loading PIX22 predictions...")

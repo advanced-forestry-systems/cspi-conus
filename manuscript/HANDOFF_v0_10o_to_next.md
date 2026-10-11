@@ -65,7 +65,7 @@ Three reframings the paper can now make safely:
 
 Direct push to advanced-forestry-systems/cspi-conus is now working with the new PAT (claude-cowork-afs). Local clone main at commit `06a1e72`. The org repo is at the same commit.
 
-Permanent fix complete: holoros PAT updated at `~/Documents/Claude/CRSF-Cowork/_context/.gh-holoros/token`, scoped to advanced-forestry-systems, with Contents = Read and write on cspi-conus.
+Permanent fix complete: holoros PAT updated at the private token store (path kept in private-reference.md), scoped to advanced-forestry-systems, with Contents = Read and write on cspi-conus.
 
 ## Commits on advanced-forestry-systems/cspi-conus this session
 
@@ -93,7 +93,7 @@ Paste verbatim into the next session.
 > 2. Confirm FEM submission package is ready.
 > 3. If I want any optional v3.0.1 work (GEDI L4B re-download and AGB-target fit, NASA-CMS biomass change target, Sentinel-2 productivity, F16 spatial residual map, NEWS_v3.0.1 update), execute on autopilot.
 >
-> Security policy: file deletions on Cardinal are prohibited from autopilot (provide rm commands as text only). Zenodo token at `~/.zenodo_token` on Cardinal mode 600 — never echo to stdout. GitHub PAT at `_context/.gh-holoros/token`. Never place tokens in URL query params (use Authorization Bearer header). IAM permission grants are user-only.
+> Security policy: file deletions on Cardinal are prohibited from autopilot (provide rm commands as text only). Zenodo token in the Cardinal token file (mode 600) — never echo to stdout. GitHub PAT in the private token store. Never place tokens in URL query params (use Authorization Bearer header). IAM permission grants are user-only.
 >
 > Funding: University of Maine Center for Research on Sustainable Forests (CRSF) only. Aaron does not have a MAFES appointment so do not reattribute to NIFA McIntire-Stennis.
 >

@@ -22,12 +22,14 @@ cat("attribute fields:", paste(names(eco), collapse = ", "), "\n")
 plt_xy <- plt[!is.na(LAT) & !is.na(LON)]
 pts <- vect(plt_xy[, .(LON, LAT)], geom = c("LON","LAT"), crs = "EPSG:4326")
 eco_proj <- project(eco, crs(pts))
-eco_attr <- terra::extract(eco_proj, pts)
-plt_xy[, eco_L3_id := eco_attr[, 2]]  # second column is typically the region key
-
-# Try to grab a useful name field too
-name_col <- names(eco_attr)[grep("name|NA_L3|L3_KEY|US_L3", names(eco_attr), ignore.case = TRUE)][1]
-if (!is.na(name_col)) plt_xy[, eco_L3_name := eco_attr[[name_col]]]
+eco_attr <- as.data.table(terra::extract(eco_proj[, c("NA_L3CODE", "NA_L3NAME")], pts))
+## Named fields instead of "column 2", and one row per point (a point on a
+## shared edge can match two polygons).
+eco_attr <- eco_attr[!is.na(NA_L3CODE)][, .SD[1], by = id.y]
+eco_attr <- eco_attr[data.table(id.y = seq_len(length(pts))), on = "id.y"]
+plt_xy[, eco_L3_id := eco_attr$NA_L3CODE]
+plt_xy[, eco_L3_name := eco_attr$NA_L3NAME]
+plt_xy[eco_L3_id == "0.0.0", eco_L3_id := NA_character_]
 
 cat("plots with eco_L3:", sum(!is.na(plt_xy$eco_L3_id)), "of", nrow(plt_xy), "\n")
 cat("\nTop 15 ecoregions by plot count:\n")
@@ -62,6 +64,7 @@ for (e in keep_ecos) {
     w_esi = round(w_norm["z_esi"], 3),
     w_bgi = round(w_norm["z_bgi"], 3),
     w_asym = round(w_norm["z_asym"], 3),
+    any_negative = any(w_norm < 0),
     var_pc1 = round(pc$sdev[1]^2 / sum(pc$sdev^2), 3))
 }
 weights_dt <- rbindlist(weights)

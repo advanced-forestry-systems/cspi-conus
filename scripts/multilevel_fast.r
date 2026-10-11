@@ -67,7 +67,7 @@ make_weights <- function(df, gcol, min_n = 100) {
     w <- w * 3 / sum(abs(w))
     out[[as.character(g)]] <- data.table(
       group_id = g, n = nrow(d),
-      w_esi = w["z_esi"], w_bgi = w["z_bgi"], w_asym = w["z_asym"])
+      w_esi = w["z_esi"], w_bgi = w["z_bgi"], w_asym = w["z_asym"], any_negative = any(w < 0))
   }
   rbindlist(out)
 }
@@ -77,8 +77,11 @@ w2 <- make_weights(sub, "L2_full", 50)
 w3 <- make_weights(sub, "L3_full", 100)
 cat("L1 regions:", nrow(w1), " L2:", nrow(w2), " L3:", nrow(w3), "\n")
 fwrite(w1, file.path(OUT, "ML_L1_weights.csv"))
+w1[, any_negative := NULL]  # flag kept in the CSV only
 fwrite(w2, file.path(OUT, "ML_L2_weights.csv"))
+w2[, any_negative := NULL]  # flag kept in the CSV only
 fwrite(w3, file.path(OUT, "ML_L3_weights.csv"))
+w3[, any_negative := NULL]  # flag kept in the CSV only
 
 ## Join + shrinkage composite
 setnames(w1, c("group_id","n","w_esi","w_bgi","w_asym"),
