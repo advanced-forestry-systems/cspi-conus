@@ -2,7 +2,7 @@
 ## C1: Disturbance effect (recent harvest, fire, insect/disease)
 ## C2: Treatment effect (recent treatment vs no treatment)
 ## C3: Stand size class effect
-## C4: Per-state correlation (top 12 states by sample size)
+## C4: Per-state correlation (top 15 states by sample size)
 ## C5: Predict SITECLCD from components: which one wins?
 
 suppressPackageStartupMessages({
@@ -46,21 +46,28 @@ plt[, cspi3 := (c3 - mm[1]) / (mm[2] - mm[1]) * 100]
 
 ## ===== C1: Disturbance =====
 cat("\n=== C1: Disturbance effect ===\n")
-# DSTRBCD1: 0=none, 10=insect, 20=disease, 30=fire, 40=animal, 50=weather, 60=vegetation, 70=unknown, 80=human, 90=storm
+# DSTRBCD1 (FIA): 0 = none, 10s insect, 20s disease, 30s fire, 40s animal,
+# 50s weather (incl. wind), 60s vegetation, 70s unknown/other, 80s human,
+# 90s geologic. NA = condition not assessed; excluded rather than lumped
+# with "None" (the earlier default lumped NA and 70s into "None" and
+# mislabeled the 90s as "Storm").
 plt[, disturb_recent := !is.na(DSTRBCD1) & DSTRBCD1 > 0]
 plt[, disturb_category := fcase(
-  DSTRBCD1 >= 10 & DSTRBCD1 < 20, "Insect",
-  DSTRBCD1 >= 20 & DSTRBCD1 < 30, "Disease",
-  DSTRBCD1 >= 30 & DSTRBCD1 < 40, "Fire",
-  DSTRBCD1 >= 40 & DSTRBCD1 < 50, "Animal",
-  DSTRBCD1 >= 50 & DSTRBCD1 < 60, "Weather",
-  DSTRBCD1 >= 60 & DSTRBCD1 < 70, "Vegetation",
-  DSTRBCD1 >= 80 & DSTRBCD1 < 90, "Human",
-  DSTRBCD1 >= 90 & DSTRBCD1 <= 99, "Storm",
-  default = "None"
+  is.na(DSTRBCD1),                   NA_character_,
+  DSTRBCD1 == 0,                     "None",
+  DSTRBCD1 >= 10 & DSTRBCD1 < 20,    "Insect",
+  DSTRBCD1 >= 20 & DSTRBCD1 < 30,    "Disease",
+  DSTRBCD1 >= 30 & DSTRBCD1 < 40,    "Fire",
+  DSTRBCD1 >= 40 & DSTRBCD1 < 50,    "Animal",
+  DSTRBCD1 >= 50 & DSTRBCD1 < 60,    "Weather",
+  DSTRBCD1 >= 60 & DSTRBCD1 < 70,    "Vegetation",
+  DSTRBCD1 >= 70 & DSTRBCD1 < 80,    "Unknown/other",
+  DSTRBCD1 >= 80 & DSTRBCD1 < 90,    "Human",
+  DSTRBCD1 >= 90 & DSTRBCD1 <= 99,   "Geologic",
+  default = "Unrecognized code"
 )]
 
-dist_summary <- plt[, .(
+dist_summary <- plt[!is.na(disturb_category), .(
   n           = .N,
   mean_esi    = round(mean(esi,    na.rm = TRUE), 1),
   mean_bgi    = round(mean(bgi_v,  na.rm = TRUE), 2),
@@ -75,10 +82,11 @@ fwrite(dist_summary, file.path(OUT, "C1_disturbance_effect.csv"))
 
 ## ===== C2: Treatment =====
 cat("\n=== C2: Treatment effect ===\n")
-# TRTCD1: 00=none, 10=cutting, 20=site prep, 30=artificial regen, 40=natural regen, 50=other
+# TRTCD1 (NA = not assessed, excluded): 00=none, 10=cutting, 20=site prep, 30=artificial regen, 40=natural regen, 50=other
 plt[, treat_recent := !is.na(TRTCD1) & TRTCD1 > 0]
 plt[, treat_category := fcase(
-  is.na(TRTCD1) | TRTCD1 == 0, "None",
+  is.na(TRTCD1),              NA_character_,
+  TRTCD1 == 0,                "None",
   TRTCD1 >= 10 & TRTCD1 < 20, "Cutting",
   TRTCD1 >= 20 & TRTCD1 < 30, "Site prep",
   TRTCD1 >= 30 & TRTCD1 < 40, "Artificial regen",
@@ -86,7 +94,7 @@ plt[, treat_category := fcase(
   default = "Other"
 )]
 
-treat_summary <- plt[, .(
+treat_summary <- plt[!is.na(treat_category), .(
   n           = .N,
   mean_esi    = round(mean(esi,    na.rm = TRUE), 1),
   mean_bgi    = round(mean(bgi_v,  na.rm = TRUE), 2),
@@ -154,12 +162,12 @@ sub_use <- sub[complete.cases(sub[, .(esi, bgi_v, asym_v, SITECLCD)])]
 cat("n:", nrow(sub_use), "\n")
 set.seed(47)
 
-predict_one <- function(target_col, predictor_cols) {
+predict_one <- function(predictor_cols) {
   preds <- paste(predictor_cols, collapse = " + ")
   m <- ranger(formula = as.formula(paste("SITECLCD ~", preds)),
               data = sub_use[, c("SITECLCD", predictor_cols), with = FALSE],
               num.trees = 500, num.threads = 8,
-              classification = FALSE, importance = "impurity")
+              classification = FALSE)
   data.table(predictors = paste(predictor_cols, collapse = ", "),
              n = nrow(sub_use),
              OOB_R2 = round(m$r.squared, 4),
@@ -167,13 +175,13 @@ predict_one <- function(target_col, predictor_cols) {
 }
 
 c5_results <- rbind(
-  predict_one("SITECLCD", "esi"),
-  predict_one("SITECLCD", "bgi_v"),
-  predict_one("SITECLCD", "asym_v"),
-  predict_one("SITECLCD", "npp_v"),
-  predict_one("SITECLCD", "cspi3"),
-  predict_one("SITECLCD", c("esi","bgi_v","asym_v")),
-  predict_one("SITECLCD", c("esi","bgi_v","asym_v","npp_v"))
+  predict_one("esi"),
+  predict_one("bgi_v"),
+  predict_one("asym_v"),
+  predict_one("npp_v"),
+  predict_one("cspi3"),
+  predict_one(c("esi","bgi_v","asym_v")),
+  predict_one(c("esi","bgi_v","asym_v","npp_v"))
 )
 cat("R² predicting FIA SITECLCD from each measure (or set of measures):\n")
 print(c5_results)

@@ -1,6 +1,8 @@
 ## Fix the SSURGO join: the gSSURGO mukey raster returns a factor on extract,
 ## so as.integer(mk) maps to factor level (1,2,3,...) not the underlying mukey
 ## value. Use as.integer(as.character(mk)) instead.
+## ssurgo_login.r now performs the factor-safe join itself (2026-10); this
+## script remains the producer of E2c (adds CSPI_3c) and E3c.
 
 suppressPackageStartupMessages({ library(data.table); library(terra) })
 

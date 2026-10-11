@@ -13,7 +13,7 @@ dir.create(OUT, showWarnings = FALSE, recursive = TRUE)
 
 ## Reload the L3 plot table from the L3 run output
 ## The ecoregion_L3_composite.r didn't save plot-level L3 codes, so we re-do
-## ONLY the L3 spatial extract using a faster terra::nearest approach.
+## ONLY the L3 spatial extract.
 
 library(terra)
 plt <- fread(file.path(V7_DIR, "multidim_v2/plt_ext_4c_plus_FIA.csv"))
@@ -24,19 +24,28 @@ eco <- vect("/users/PUOM0008/crsfaaron/SiteIndex/NA_Eco_L3_WGS84.shp")
 pts <- vect(plt_xy[, .(LON, LAT)], geom = c("LON","LAT"), crs = "EPSG:4326")
 pts <- project(pts, crs(eco))
 
-cat("Rasterizing the L3 polygons (faster than per-point poly-in-poly)...\n")
-## Rasterize at 0.05 deg resolution (~5km) — sufficient for region assignment
-r_template <- rast(ext(eco), resolution = 0.05, crs = crs(eco))
-eco$NA_L3_INT <- as.integer(as.factor(eco$NA_L3CODE))
-r_eco <- rasterize(eco, r_template, field = "NA_L3_INT")
-cat("Extracting from raster...\n")
-plt_xy[, L3_int := terra::extract(r_eco, pts, ID = FALSE)[, 1]]
-
-# Translate integer back to L3 code
-code_lookup <- data.table(L3_int = eco$NA_L3_INT, L3_full = eco$NA_L3CODE,
-                          L3_name = eco$NA_L3NAME)
-code_lookup <- unique(code_lookup, by = "L3_int")
-plt_xy <- merge(plt_xy, code_lookup, by = "L3_int", all.x = TRUE)
+## Exact point-in-polygon L3 assignment. An earlier version used a 0.05 degree
+## raster lookup, which misassigned plots near region edges and dropped coastal
+## plots; unmatched plots now fall back to the nearest land polygon within 5 km.
+assign_L3 <- function(eco, pts, max_dist = 5000) {
+  ex <- as.data.table(terra::extract(eco[, c("NA_L3CODE", "NA_L3NAME")], pts))
+  ex <- ex[!is.na(NA_L3CODE)][, .SD[1], by = id.y]   # first match on shared edges
+  out <- ex[data.table(id.y = seq_len(length(pts))), on = "id.y"]
+  miss <- which(is.na(out$NA_L3CODE))
+  if (length(miss)) {
+    land <- eco[eco$NA_L3CODE != "0.0.0"]
+    nn <- as.data.table(terra::nearest(pts[miss], land))
+    ok <- nn$distance <= max_dist
+    out[miss[ok], `:=`(NA_L3CODE = land$NA_L3CODE[nn$to_id[ok]],
+                       NA_L3NAME = land$NA_L3NAME[nn$to_id[ok]])]
+    cat("nearest-polygon fallback assigned", sum(ok), "of", length(miss), "unmatched plots\n")
+  }
+  out
+}
+cat("Assigning L3 by point-in-polygon...\n")
+l3 <- assign_L3(eco, pts)
+plt_xy[, `:=`(L3_full = l3$NA_L3CODE, L3_name = l3$NA_L3NAME)]
+plt_xy[L3_full == "0.0.0", L3_full := NA_character_]
 cat("plots with L3 code:", sum(!is.na(plt_xy$L3_full)), "\n")
 
 ## Derive L1 and L2 codes from the L3 string format "X.Y.Z"
@@ -69,7 +78,7 @@ calc_w <- function(d, gcol, min_n = 100) {
     w <- w * 3 / sum(abs(w))
     L[[as.character(g)]] <- data.table(
       gid = g, n = nrow(dg),
-      w_esi = w["z_esi"], w_bgi = w["z_bgi"], w_asym = w["z_asym"])
+      w_esi = w["z_esi"], w_bgi = w["z_bgi"], w_asym = w["z_asym"], any_negative = any(w < 0))
   }
   rbindlist(L)
 }
@@ -79,8 +88,11 @@ w2 <- calc_w(sub, "L2_full", 50)
 w3 <- calc_w(sub, "L3_full", 100)
 cat("L1 regions:", nrow(w1), "  L2:", nrow(w2), "  L3:", nrow(w3), "\n")
 fwrite(w1, file.path(OUT, "MLM_L1_weights.csv"))
+w1[, any_negative := NULL]  # flag kept in the CSV only
 fwrite(w2, file.path(OUT, "MLM_L2_weights.csv"))
+w2[, any_negative := NULL]  # flag kept in the CSV only
 fwrite(w3, file.path(OUT, "MLM_L3_weights.csv"))
+w3[, any_negative := NULL]  # flag kept in the CSV only
 
 # Join
 setnames(w1, c("gid","n","w_esi","w_bgi","w_asym"),

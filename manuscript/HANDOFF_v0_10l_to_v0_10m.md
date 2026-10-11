@@ -26,7 +26,7 @@ Cardinal job **11787913** is still computing the unmasked Asym v9 lapp pass to p
 When the job completes:
 
 ```bash
-ssh crsfaaron@cardinal.osc.edu "
+ssh <user>@<cardinal-host> "
   sacct -j 11787913 --format=JobID,State,Elapsed,ExitCode | head -3
   cat /fs/scratch/PUOM0008/crsfaaron/v3.1_analyses/REFORESTATION_GAP_summary.csv
   ls -la /fs/scratch/PUOM0008/crsfaaron/v3.1_analyses/REFORESTATION*
@@ -65,7 +65,7 @@ Paste verbatim into the next session.
 > 4. Help me send the coauthor review email to Anthony D'Amato and Jereme Frank with the v0.10m docx attached.
 > 5. Confirm the FEM submission package is ready.
 >
-> Security policy: file deletions on Cardinal are prohibited from autopilot (provide rm commands as text only). Zenodo token at `~/.zenodo_token` on Cardinal mode 600 — never echo to stdout. GitHub PAT at `_context/.gh-holoros/token`. Never place tokens in URL query params (use Authorization Bearer header). IAM permission grants are user-only.
+> Security policy: file deletions on Cardinal are prohibited from autopilot (provide rm commands as text only). Zenodo token in the Cardinal token file (mode 600) — never echo to stdout. GitHub PAT in the private token store. Never place tokens in URL query params (use Authorization Bearer header). IAM permission grants are user-only.
 >
 > Funding: University of Maine Center for Research on Sustainable Forests (CRSF) only. Aaron does not have a MAFES appointment so do not reattribute to NIFA McIntire-Stennis.
 >

@@ -22,9 +22,19 @@ uniq <- unique(plt_xy$mukey[!is.na(plt_xy$mukey)])
 cat("unique mukeys:", length(uniq), "\n")
 
 ## Query SDA for parent material per mukey from copmgrp
+## Retry failed SDA calls with backoff and log mukeys that never succeed
+## (previously failed chunks were dropped after a single attempt).
+sda_retry <- function(q, tries = 4) {
+  for (k in seq_len(tries)) {
+    res <- tryCatch(SDA_query(q), error = function(e) e)
+    if (!inherits(res, c("error", "try-error"))) return(list(ok = TRUE, res = res))
+    Sys.sleep(2^k)
+  }
+  list(ok = FALSE, res = NULL)
+}
 chunk_size <- 800
 rows <- list()
-fail_count <- 0
+failed <- integer()
 for (i in seq(1, length(uniq), by = chunk_size)) {
   mks <- uniq[i:min(i + chunk_size - 1, length(uniq))]
   q <- paste0(
@@ -35,8 +45,9 @@ for (i in seq(1, length(uniq), by = chunk_size)) {
     "INNER JOIN copmgrp cpm ON cpm.cokey = c.cokey ",
     "WHERE mu.mukey IN (", paste(mks, collapse = ","), ") ",
     "  AND cpm.pmgroupname IS NOT NULL")
-  res <- tryCatch(SDA_query(q),
-                  error = function(e) { fail_count <<- fail_count + 1; NULL })
+  r <- sda_retry(q)
+  if (!r$ok) failed <- c(failed, mks)
+  res <- r$res
   if (!is.null(res) && nrow(res)) {
     rows[[length(rows) + 1]] <- setDT(res)
     if (i %% 4000 == 1) cat("chunk", i, "rows:", nrow(res), "\n")
@@ -44,7 +55,8 @@ for (i in seq(1, length(uniq), by = chunk_size)) {
   Sys.sleep(0.5)
 }
 sda <- rbindlist(rows, fill = TRUE)
-cat("total SDA rows:", nrow(sda), "failed chunks:", fail_count, "\n")
+cat("total SDA rows:", nrow(sda), " mukeys in failed chunks:", length(failed), "\n")
+fwrite(data.table(mukey = failed), file.path(OUT, "PM0_failed_mukeys.csv"))
 
 ## Pick the dominant parent material per mukey
 sda[, comppct_r := as.numeric(comppct_r)]

@@ -4,12 +4,15 @@ Three panels: (A) hex-binned mean residual; (B) hex-binned residual standard dev
 (C) hex-binned plot count, to show where residuals are well-sampled."""
 
 import csv
+import os
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-INDIR = "/sessions/quirky-peaceful-babbage/mnt/outputs"
+# Input/output directory (PIX22_npp_predictions.csv is server-side and not in
+# the repo because it carries plot coordinates). Override with CSPI_OUTDIR.
+INDIR = os.environ.get("CSPI_OUTDIR", "/sessions/quirky-peaceful-babbage/mnt/outputs")
 
 lon, lat, resid = [], [], []
 with open(f"{INDIR}/PIX22_npp_predictions.csv") as f:

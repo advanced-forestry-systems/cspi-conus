@@ -37,7 +37,7 @@ Weiskittel, A. R. (in preparation). Beyond site index: FIA's own classification 
 
 ## License
 
-All data products are CC-BY-4.0. Code is MIT. See `LICENSE` (when added).
+All data products are CC-BY-4.0. Code is MIT. See `LICENSE`.
 
 ## Acknowledgments
 

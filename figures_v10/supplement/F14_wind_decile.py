@@ -3,15 +3,26 @@
    Panel A: mean Asym v9 by wind decile (raw)
    Panel B: mean v9 residual by wind decile (null after conditioning)
 """
+import os
 import re
 import csv
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-CSV_PATH = "/sessions/quirky-peaceful-babbage/mnt/outputs/PM31_asym_resid_by_wind_decile.csv"
-OUT_PNG = "/sessions/quirky-peaceful-babbage/mnt/outputs/F14_wind_decile.png"
-OUT_PDF = "/sessions/quirky-peaceful-babbage/mnt/outputs/F14_wind_decile.pdf"
+# Directories default to the repo layout; override with CSPI_ANALYSES / CSPI_FIGDIR.
+REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+ANALYSES = os.environ.get("CSPI_ANALYSES", os.path.join(REPO, "analyses"))
+FIGDIR = os.environ.get("CSPI_FIGDIR", os.path.dirname(os.path.abspath(__file__)))
+CSV_PATH = os.path.join(ANALYSES, "PM31_asym_resid_by_wind_decile.csv")
+RMSE_PATH = os.path.join(ANALYSES, "multidim_v6_geol", "PM22_asym_v9_refit_v3stack.csv")
+OUT_PNG = os.path.join(FIGDIR, "F14_wind_decile.png")
+OUT_PDF = os.path.join(FIGDIR, "F14_wind_decile.pdf")
+
+# v9 OOB RMSE read from its source table rather than hardcoded
+with open(RMSE_PATH) as f:
+    v9_rmse = next(float(r["OOB_RMSE"]) for r in csv.DictReader(f)
+                   if r["model"].startswith("Asym v9"))
 
 rows = []
 with open(CSV_PATH) as f:
@@ -57,7 +68,7 @@ ax.spines["top"].set_visible(False); ax.spines["right"].set_visible(False)
 ax.set_ylim(-2.0, 2.0)
 ax.grid(False)
 fig.text(0.55, 0.01,
-         "v9 OOB RMSE = 8.21 Mg ha$^{-1}$; residual amplitude is one to two orders of magnitude smaller",
+         f"v9 OOB RMSE = {v9_rmse:.2f} Mg ha$^{{-1}}$; residual amplitude is one to two orders of magnitude smaller",
          fontsize=8.5, color="gray", ha="left")
 
 plt.tight_layout(rect=[0, 0.03, 1, 1])

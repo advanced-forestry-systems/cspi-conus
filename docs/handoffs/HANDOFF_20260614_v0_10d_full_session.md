@@ -113,7 +113,7 @@ The SLURM AssocGrpSubmitJobsLimit blocked all SLURM submits for a while (project
 
 ## Recommended next-session opening sequence
 
-1. **SSH to Cardinal**: same key/config dance as this session (`/sessions/.../mnt/aweiskittel/Documents/Claude/.ssh-cardinal/id_ed25519_cardinal` to `/tmp/cardinal_key`, then `/tmp/sshcfg` with `ConnectTimeout 20`).
+1. **SSH to Cardinal**: same key/config dance as this session (the Cardinal SSH key (path kept in private-reference.md) to `/tmp/cardinal_key`, then `/tmp/sshcfg` with `ConnectTimeout 20`).
 2. **Poll Cardinal**: `squeue -u crsfaaron | head -10`. If v7_qrf array is done, the v2.0.1 deposit can be staged. If still running, defer.
 3. **Read this handoff** and `NEWS.md` for the v0.10b/c/d correction trace before touching the manuscript.
 4. **Resume task #245** (the deferred self-review items) and #252 (slide 5 update).

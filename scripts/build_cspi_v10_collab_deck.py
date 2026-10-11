@@ -16,8 +16,12 @@ from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pathlib import Path
+import os
+import sys
 
-OUT = "/sessions/quirky-peaceful-babbage/mnt/outputs/CSPI_v10_collaborators_overview.pptx"
+# Paths default to the original Cowork session; override with CSPI_DECK_OUT,
+# CSPI_LOGO and CSPI_FIGROOT (folder holding figures_v10/ and figures_v04/).
+OUT = os.environ.get("CSPI_DECK_OUT", "/sessions/quirky-peaceful-babbage/mnt/outputs/CSPI_v10_collaborators_overview.pptx")
 
 # CRSF brand
 CRSF_GREEN = RGBColor(0x1A, 0x3D, 0x28)
@@ -34,13 +38,15 @@ COLOR_ASYM = RGBColor(0x6F, 0x8C, 0x5A)
 COLOR_NPP  = RGBColor(0xC6, 0x8C, 0x42)
 COLOR_CSPI = RGBColor(0x8B, 0x5D, 0xA6)
 
-CRSF_LOGO = "/sessions/quirky-peaceful-babbage/mnt/aweiskittel/Documents/Claude/CRSF-Cowork/Logos_CRSFgraphics/Center Logos/CRSF/CRSF logo (2018)/1. Full Color/CRSF logo.png"
-F8 = "/sessions/quirky-peaceful-babbage/mnt/bgi-cspi-conus/v5/figures_v10/F8_siteclcd_by_measure.png"
-F9 = "/sessions/quirky-peaceful-babbage/mnt/bgi-cspi-conus/v5/figures_v10/F9_stand_age_correlation.png"
-F10 = "/sessions/quirky-peaceful-babbage/mnt/bgi-cspi-conus/v5/figures_v10/F10_per_species_ESI_BGI.png"
-F11 = "/sessions/quirky-peaceful-babbage/mnt/bgi-cspi-conus/v5/figures_v10/F11_decision_tree.png"
-F7 = "/sessions/quirky-peaceful-babbage/mnt/bgi-cspi-conus/v5/figures_v10/F7_cspi_v21_3c_map.png"
-F1 = "/sessions/quirky-peaceful-babbage/mnt/bgi-cspi-conus/v5/figures_v04/F1_cor_heatmap.png"
+CRSF_LOGO = os.environ.get("CSPI_LOGO") or "/sessions/quirky-peaceful-babbage/mnt/aweiskittel/Documents/Claude/CRSF-Cowork/Logos_CRSFgraphics/Center Logos/CRSF/CRSF logo (2018)/1. Full Color/CRSF logo.png"
+FIGROOT = os.environ.get("CSPI_FIGROOT", "/sessions/quirky-peaceful-babbage/mnt/bgi-cspi-conus/v5")
+MISSING = []
+F8 = os.path.join(FIGROOT, "figures_v10/F8_siteclcd_by_measure.png")
+F9 = os.path.join(FIGROOT, "figures_v10/F9_stand_age_correlation.png")
+F10 = os.path.join(FIGROOT, "figures_v10/F10_per_species_ESI_BGI.png")
+F11 = os.path.join(FIGROOT, "figures_v10/F11_decision_tree.png")
+F7 = os.path.join(FIGROOT, "figures_v10/F7_cspi_v21_3c_map.png")
+F1 = os.path.join(FIGROOT, "figures_v04/F1_cor_heatmap.png")
 
 # 16:9
 prs = Presentation()
@@ -86,8 +92,8 @@ def add_logo(slide, x=0.4, y=0.35, size=1.0):
     try:
         slide.shapes.add_picture(CRSF_LOGO, Inches(x), Inches(y),
                                  width=Inches(size), height=Inches(size))
-    except Exception:
-        pass
+    except Exception as e:
+        MISSING.append(f"logo: {e}")
 
 def add_rect(slide, x, y, w, h, color, line=False):
     s = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE,
@@ -102,6 +108,7 @@ def add_image(slide, path, x, y, w, h):
         return slide.shapes.add_picture(path, Inches(x), Inches(y),
                                         width=Inches(w), height=Inches(h))
     except Exception as e:
+        MISSING.append(f"{path}: {e}")
         # Placeholder rect
         rect = add_rect(slide, x, y, w, h, RGBColor(0xEE, 0xEE, 0xEE))
         add_text(slide, x, y+h/2-0.3, w, 0.6,
@@ -119,8 +126,8 @@ bg = add_rect(s, 0, 0, 13.333, 7.5, CRSF_GREEN)
 try:
     s.shapes.add_picture(CRSF_LOGO, Inches(11.6), Inches(0.4),
                          width=Inches(1.3), height=Inches(1.3))
-except Exception:
-    pass
+except Exception as e:
+    MISSING.append(f"logo: {e}")
 
 add_text(s, 0.8, 1.5, 12.0, 1.6,
          "Beyond site index",
@@ -441,8 +448,8 @@ add_rect(s, 0, 0, 13.333, 7.5, CRSF_GREEN)
 try:
     s.shapes.add_picture(CRSF_LOGO, Inches(11.6), Inches(0.4),
                          width=Inches(1.3), height=Inches(1.3))
-except Exception:
-    pass
+except Exception as e:
+    MISSING.append(f"logo: {e}")
 add_text(s, 0.8, 2.4, 12.0, 1.5,
          "Questions, applications, collaborations?",
          size=44, bold=True, color=WHITE, font="Aptos Display",
@@ -460,3 +467,7 @@ add_text(s, 0.8, 5.9, 12.0, 0.4,
 prs.save(OUT)
 print(f"Wrote: {OUT}")
 print(f"Slides: {len(prs.slides)}")
+if MISSING:
+    print(f"WARNING: {len(MISSING)} image(s) missing; placeholders were used:", file=sys.stderr)
+    for m in MISSING:
+        print(f"  {m}", file=sys.stderr)
